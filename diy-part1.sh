@@ -22,7 +22,7 @@ git clone  https://github.com/jerrykuku/luci-app-argon-config package/0/luci-app
 git clone  https://github.com/garypang13/luci-app-eqos package/0/luci-app-eqos
 git clone  https://github.com/tty228/luci-app-serverchan package/0/luci-app-serverchan
 git clone  https://github.com/jerrykuku/luci-app-vssr package/0/luci-app-vssr
-git clone  https://github.com/jerrykuku/luci-theme-argon.git package/0/luci-theme-argon
+git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/0/luci-theme-argon
 rm -rf package/lean/luci-theme-argon
 git clone  https://github.com/destan19/OpenAppFilter package/0/OpenAppFilter
 git clone  https://github.com/project-openwrt/openwrt-gowebdav.git package/0/openwrt-gowebdav
