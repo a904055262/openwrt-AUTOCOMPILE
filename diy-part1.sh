@@ -30,3 +30,5 @@ svn co  https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol
 svn co  https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl package/0/luci-app-control-weburl
 svn co  https://github.com/Lienol/openwrt-package/trunk/luci-app-filebrowser package/0/luci-app-filebrowser
 svn co  https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/0/luci-app-openclash
+
+sed -i "s/LUCI_DEPENDS:=@arm/LUCI_DEPENDS:=/g" package/lean/luci-app-cpufreq/Makefile
