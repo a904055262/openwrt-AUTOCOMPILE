@@ -24,7 +24,7 @@ git clone  https://github.com/tty228/luci-app-serverchan package/0/luci-app-serv
 git clone  https://github.com/jerrykuku/luci-app-vssr package/0/luci-app-vssr
 git clone  https://github.com/jerrykuku/luci-theme-argon.git package/0/luci-theme-argon
 rm -rf package/lean/luci-theme-argon
-git clone  https://github.com/destan19/OpenAppFilter package/0/OpenAppFilter
+git clone  https://github.com/destan19/OpenAppFilter
 git clone  https://github.com/project-openwrt/openwrt-gowebdav.git package/0/openwrt-gowebdav
 svn co  https://github.com/Lienol/openwrt-package/trunk/luci-app-control-timewol package/0/luci-app-control-timewol
 svn co  https://github.com/Lienol/openwrt-package/trunk/luci-app-control-weburl package/0/luci-app-control-weburl
