@@ -17,8 +17,8 @@
 #sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
 
 git clone  https://github.com/kongfl888/luci-app-adguardhome package/0/luci-app-adguardhome
-git clone  https://github.com/immortalwrt-collections/openwrt-gowebdav package/0/openwrt-gowebdav
 svn co  https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/0/luci-app-openclash
-git clone --depth=1 https://github.com/fw876/helloworld.git package/0/helloworld
-git clone https://github.com/xiaorouji/openwrt-passwall package/0/passwall
+
+#git clone --depth=1 https://github.com/fw876/helloworld.git package/0/helloworld
+#git clone https://github.com/xiaorouji/openwrt-passwall package/0/passwall
 
