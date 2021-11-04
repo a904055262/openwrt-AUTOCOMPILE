@@ -36,7 +36,7 @@ jobs:
                 mv -f .config lede
                 cd lede
                 git clone  https://github.com/kongfl888/luci-app-adguardhome package/0/luci-app-adguardhome
-                svn co  https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/0/luci-app-openclash
+                svn co  https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/0/luci-app-openclash > /dev/null 2>&1
                 git clone --depth=1 https://github.com/fw876/helloworld.git package/0/helloworld
                 git clone https://github.com/xiaorouji/openwrt-passwall package/0/passwall
                 ls -al
