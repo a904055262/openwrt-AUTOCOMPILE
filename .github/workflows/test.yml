@@ -59,6 +59,7 @@ jobs:
             - name: 开始编译
               run: |
                 cd lede
+                make -j8 download
                 make -j$(($(nproc) + 1)) 
             - name: 上传编译固件
               uses: actions/upload-artifact@v2.2.4
