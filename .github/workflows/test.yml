@@ -11,9 +11,14 @@ jobs:
         steps:
             - name: 安装编译依赖
               run: |
-                pwd
-                sudo apt-get update
-                sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
+                echo 工作目录:$PWD
+                sudo apt-get update > /dev/null 2>&1
+                sudo apt-get -y install build-essential asciidoc \
+                binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch \
+                python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion \
+                flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo \
+                libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint \
+                device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync > /dev/null 2>&1
 
             - name: 下载仓库文件到工作目录
               uses: actions/checkout@v2
@@ -23,7 +28,7 @@ jobs:
                 pwd
                 df -h
                 lsblk
-                git clone https://github.com/coolsnowwolf/lede
+                git clone https://github.com/coolsnowwolf/lede > /dev/null 2>&1
                 ls -al
             - name: 自定义修改
               run: |
@@ -39,15 +44,15 @@ jobs:
               run: |
                 pwd
                 cd lede
-                ./scripts/feeds update -a
-                ./scripts/feeds install -a
+                ./scripts/feeds update -a > /dev/null 2>&1
+                ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
             - name: 开始编译
               run: |
                 pwd
                 cd lede
                 make defconfig
-                make -j$(($(nproc) + 1)) V=s
+                make -j$(($(nproc) + 1)) 
             - name: 上传编译固件
               run: |
                 pwd
