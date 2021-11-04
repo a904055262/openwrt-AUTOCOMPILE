@@ -52,8 +52,7 @@ jobs:
                 cd lede
                 rm -rf tmp
                 cat .config
-                sleep 10s
-                make defconfig
+                #make defconfig
             - name: 开始编译
               run: |
                 cd lede
