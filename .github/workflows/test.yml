@@ -11,6 +11,7 @@ jobs:
         steps:
             - name: 安装编译依赖
               run: |
+                id
                 echo 工作目录:$PWD
                 sudo apt-get update > /dev/null 2>&1
                 sudo apt-get -y install build-essential asciidoc \
@@ -33,7 +34,6 @@ jobs:
             - name: 自定义修改
               run: |
                 pwd
-                mv -f .config lede
                 cd lede
                 git clone  https://github.com/kongfl888/luci-app-adguardhome package/0/luci-app-adguardhome
                 svn co  https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/0/luci-app-openclash > /dev/null 2>&1
@@ -51,6 +51,7 @@ jobs:
               run: |
                 cd lede
                 rm -rf tmp
+                mv -f ../config ./
                 cat .config
                 #make defconfig
             - name: 开始编译
