@@ -51,12 +51,8 @@ jobs:
               run: |
                 cd lede
                 rm -rf tmp
-                sleep 3s
+                cat .config
                 make defconfig
-                echo --------------------config--------------------------------------
-                cat .config | grep -i 'uhttpd'
-                cat .config | grep -i 'sqm'
-                echo --------------------config--------------------------------------
             - name: 开始编译
               run: |
                 cd lede
