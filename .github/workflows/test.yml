@@ -21,6 +21,8 @@ jobs:
             - name: 克隆openwrt源码到工作目录
               run: |
                 pwd
+                df -h
+                lsblk
                 git clone https://github.com/coolsnowwolf/lede
                 ls -al
             - name: 自定义修改
@@ -46,4 +48,8 @@ jobs:
                 cd lede
                 make defconfig
                 make -j$(($(nproc) + 1)) V=s
+            - name: 上传编译固件
+              run: |
+                pwd
+                cd lede
         
