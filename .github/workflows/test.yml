@@ -1,0 +1,46 @@
+name: 编译openwrt
+on:
+    #schedule:
+        #- cron: 30 18 */* * *
+    workflow_dispatch:
+
+jobs:
+    built:
+        runs-on: ubuntu-18.04
+        
+        steps:
+            - name: 初始化系统
+              run: |
+                pwd
+                sudo apt-get update
+                sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
+
+            - name: 下载仓库文件到工作目录
+              uses: actions/checkout@v2
+             
+            - name: 克隆openwrt源码到工作目录
+              run: |
+                pwd
+                git clone https://github.com/coolsnowwolf/lede
+                ls -al
+            - name: 自定义修改
+              run: |
+                pwd
+                mv -f .config lede
+                cd lede
+                git clone  https://github.com/kongfl888/luci-app-adguardhome package/0/luci-app-adguardhome
+                svn co  https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/0/luci-app-openclash
+                git clone --depth=1 https://github.com/fw876/helloworld.git package/0/helloworld
+                git clone https://github.com/xiaorouji/openwrt-passwall package/0/passwall
+                ls -al
+            - name: 更新feeds
+              run: |
+                pwd
+                cd lede
+                ./scripts/feeds update -a
+                ./scripts/feeds install -a
+                ./scripts/feeds install -a
+            - name: 开始编译
+              run: |
+                make -j$(($(nproc) + 1)) V=s
+        
