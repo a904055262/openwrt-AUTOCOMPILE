@@ -54,7 +54,11 @@ jobs:
                 make defconfig
                 make -j$(($(nproc) + 1)) 
             - name: 上传编译固件
-              run: |
-                pwd
-                cd lede
+              uses: actions/upload-artifact@v2.2.4
+              with:
+                name: openwrt
+                path: |
+                    lede/bin/targets/*/*/
+                    !lede/bin/targets/*/*/packages
+
         
