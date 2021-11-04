@@ -51,7 +51,7 @@ jobs:
               run: |
                 cd lede
                 rm -rf tmp
-                mv -f ../config ./
+                mv -f ../.config ./
                 cat .config
                 #make defconfig
             - name: 开始编译
