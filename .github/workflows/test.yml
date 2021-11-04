@@ -21,7 +21,7 @@ jobs:
                 device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync > /dev/null 2>&1
 
             - name: 下载仓库文件到工作目录
-              uses: actions/checkout@v2
+              uses: actions/checkout@v2.4.0
              
             - name: 克隆openwrt源码到工作目录
               run: |
