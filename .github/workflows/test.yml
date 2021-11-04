@@ -52,6 +52,9 @@ jobs:
                 pwd
                 cd lede
                 make defconfig
+                echo --------------------config--------------------------------------
+                cat .config
+                echo --------------------config--------------------------------------
                 make -j$(($(nproc) + 1)) 
             - name: 上传编译固件
               uses: actions/upload-artifact@v2.2.4
