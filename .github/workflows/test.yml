@@ -50,6 +50,8 @@ jobs:
             - name: defconfig生成配置
               run: |
                 cd lede
+                rm -rf tmp
+                sleep 3s
                 make defconfig
                 echo --------------------config--------------------------------------
                 cat .config | grep -i 'uhttpd'
