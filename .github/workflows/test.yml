@@ -53,7 +53,8 @@ jobs:
                 cd lede
                 make defconfig
                 echo --------------------config--------------------------------------
-                cat .config | grep -i 'sqm|uhttpd'
+                cat .config | grep -i 'uhttpd'
+                cat .config | grep -i 'sqm'
                 echo --------------------config--------------------------------------
                 make -j$(($(nproc) + 1)) 
             - name: 上传编译固件
