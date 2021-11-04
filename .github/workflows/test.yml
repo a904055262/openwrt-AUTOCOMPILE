@@ -42,5 +42,8 @@ jobs:
                 ./scripts/feeds install -a
             - name: 开始编译
               run: |
+                pwd
+                cd lede
+                make defconfig
                 make -j$(($(nproc) + 1)) V=s
         
