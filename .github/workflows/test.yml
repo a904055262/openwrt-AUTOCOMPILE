@@ -47,15 +47,17 @@ jobs:
                 ./scripts/feeds update -a > /dev/null 2>&1
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
-            - name: 开始编译
+            - name: defconfig生成配置
               run: |
-                pwd
                 cd lede
                 make defconfig
                 echo --------------------config--------------------------------------
                 cat .config | grep -i 'uhttpd'
                 cat .config | grep -i 'sqm'
                 echo --------------------config--------------------------------------
+            - name: 开始编译
+              run: |
+                cd lede
                 make -j$(($(nproc) + 1)) 
             - name: 上传编译固件
               uses: actions/upload-artifact@v2.2.4
