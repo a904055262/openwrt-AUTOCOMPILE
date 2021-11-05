@@ -60,6 +60,7 @@ jobs:
               run: |
                 cd lede
                 make -j8 download
+                make -j8 download
                 make -j$(($(nproc) + 1)) 
                 cp .config lede/bin/targets/*/*/
             - name: 上传编译固件
