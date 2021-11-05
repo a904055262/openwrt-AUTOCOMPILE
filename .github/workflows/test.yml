@@ -63,12 +63,18 @@ jobs:
                 make -j8 download
                 make -j$(($(nproc) + 1)) 
                 cp .config lede/bin/targets/*/*/
-            - name: 上传编译固件
+            - name: 上传编译固件完整包
               uses: actions/upload-artifact@v2.2.4
               with:
-                name: openwrt
+                name: openwrtFull
                 path: |
                     lede/bin/targets/*/*/
                     !lede/bin/targets/*/*/packages
-
+            - name: 上传img固件
+              uses: actions/upload-artifact@v2.2.4
+              with:
+                name: openwrt-combined
+                path: |
+                    lede/bin/targets/*/*/*combined*
+            
         
