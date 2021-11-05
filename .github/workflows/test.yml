@@ -62,7 +62,7 @@ jobs:
                 make -j8 download
                 make -j8 download
                 make -j$(($(nproc) + 1)) 
-                cp .config lede/bin/targets/*/*/
+                cp .config bin/targets/*/*/
             - name: 上传编译固件完整包
               uses: actions/upload-artifact@v2.2.4
               with:
