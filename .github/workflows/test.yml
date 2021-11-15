@@ -1,7 +1,7 @@
 name: 编译openwrt
 on:
     schedule:
-      - cron: 55 5 */7 * * 
+      - cron: 55 5 * * * 
     workflow_dispatch:
 
 jobs:
@@ -82,5 +82,5 @@ jobs:
               with:
                 token: ${{ github.token }}
                 repository: ${{ github.repository }}
-                retain_days: 30
+                retain_days: 7
                 keep_minimum_runs: 4
