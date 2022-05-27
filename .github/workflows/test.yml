@@ -35,6 +35,7 @@ jobs:
             - name: 自定义修改
               run: |
                 pwd
+                mv addCusPackage.sh lede/
                 cd lede
                 chmod +x addCusPackage.sh
                 ./addCusPackage.sh
