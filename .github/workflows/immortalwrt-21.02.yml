@@ -31,7 +31,7 @@ jobs:
                 pwd
                 df -h
                 lsblk
-                git clone git clone -b openwrt-21.02 --single-branch https://github.com/immortalwrt/immortalwrt > /dev/null 2>&1
+                git clone -b openwrt-21.02 --single-branch https://github.com/immortalwrt/immortalwrt > /dev/null 2>&1
                 ls -al
             - name: 自定义修改
               run: |
