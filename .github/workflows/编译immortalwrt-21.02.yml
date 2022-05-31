@@ -1,0 +1,86 @@
+name: 编译immortalwrt-21.02
+on:
+    schedule:
+      - cron: 55 5 * * * 
+    workflow_dispatch:
+
+jobs:
+    built:
+        runs-on: ubuntu-20.04
+        
+        steps:
+            - name: 安装编译依赖
+              run: |
+                id
+                echo 工作目录:$PWD
+                sudo apt update -y
+                sudo apt full-upgrade -y
+                sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+                bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+                git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
+                libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz \
+                mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip qemu-utils \
+                rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
+
+            - name: 下载仓库文件到工作目录
+              uses: actions/checkout@v2.4.0
+             
+            - name: 克隆openwrt源码到工作目录
+              run: |
+                pwd
+                df -h
+                lsblk
+                git clone https://github.com/coolsnowwolf/lede > /dev/null 2>&1
+                ls -al
+            - name: 自定义修改
+              run: |
+                pwd
+                mv addCusPackage.sh lede/
+                cd lede
+                chmod +x addCusPackage.sh
+                ./addCusPackage.sh
+                ls -al
+            - name: 更新feeds
+              run: |
+                pwd
+                cd lede
+                ./scripts/feeds update -a > /dev/null 2>&1
+                ./scripts/feeds install -a > /dev/null 2>&1
+                ./scripts/feeds install -a
+            - name: defconfig生成配置
+              run: |
+                cd lede
+                rm -rf tmp
+                mv -f ../.config ./
+                #cat .config
+                make defconfig
+                #cat .config | grep -i 'sqm'
+                #cat .config | grep -i 'uhttpd'
+            - name: 开始编译
+              run: |
+                cd lede
+                make -j8 download
+                make -j8 download
+                make -j$(($(nproc) + 1)) 
+                cp .config bin/targets/*/*/
+            - name: 上传编译固件完整包
+              uses: actions/upload-artifact@v2.2.4
+              with:
+                name: openwrtFull
+                path: |
+                    lede/bin/targets/*/*/
+                    !lede/bin/targets/*/*/packages
+            - name: 上传img固件
+              uses: actions/upload-artifact@v2.2.4
+              with:
+                name: openwrt-combined
+                path: |
+                    lede/bin/targets/*/*/*combined*
+            
+            - name: Delete workflow runs
+              uses: Mattraks/delete-workflow-runs@main
+              with:
+                token: ${{ github.token }}
+                repository: ${{ github.repository }}
+                retain_days: 7
+                keep_minimum_runs: 4
