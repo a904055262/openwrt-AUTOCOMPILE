@@ -1,4 +1,4 @@
-name: 编译openwrt
+name: 编译openwrt-lean-18.06
 on:
     schedule:
       - cron: 55 5 * * * 
