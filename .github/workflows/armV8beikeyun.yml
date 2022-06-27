@@ -52,10 +52,7 @@ jobs:
                 cd lede
                 rm -rf tmp
                 mv -f ../armv8.config ./.config
-                #cat .config
                 make defconfig
-                #cat .config | grep -i 'sqm'
-                #cat .config | grep -i 'uhttpd'
             - name: 开始编译
               run: |
                 cd lede
