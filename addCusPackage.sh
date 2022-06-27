@@ -7,3 +7,4 @@ svn co  https://github.com/kenzok8/openwrt-packages/trunk/luci-app-smartdns pack
 git clone --depth=1 https://github.com/fw876/helloworld.git package/0/helloworld
 git clone https://github.com/xiaorouji/openwrt-passwall package/0/passwall
 git clone https://github.com/xiaorouji/openwrt-passwall2 package/0/openwrt-passwall2
+svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/0/luci-app-amlogic
