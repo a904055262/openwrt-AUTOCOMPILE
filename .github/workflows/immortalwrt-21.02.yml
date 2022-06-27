@@ -59,14 +59,6 @@ jobs:
                 make -j8 download
                 make -j8 download
                 make -j$(($(nproc) + 1)) 
-                cp .config bin/targets/*/*/
-            - name: 上传编译固件完整包
-              uses: actions/upload-artifact@v2.2.4
-              with:
-                name: openwrtFull
-                path: |
-                    immortalwrt/bin/targets/*/*/
-                    !immortalwrt/bin/targets/*/*/packages
             - name: 上传img固件
               uses: actions/upload-artifact@v2.2.4
               with:
@@ -79,5 +71,5 @@ jobs:
               with:
                 token: ${{ github.token }}
                 repository: ${{ github.repository }}
-                retain_days: 7
-                keep_minimum_runs: 4
+                retain_days: 30
+                keep_minimum_runs: 8
