@@ -75,7 +75,7 @@ jobs:
             - name: 上传打包的固件
               uses: actions/upload-artifact@v2.2.4
               with:
-                name: openwrt-hezi
+                name: openwrt-flippy
                 path: |
                     /opt/openwrt_packit/output/*
             - name: Delete workflow runs
