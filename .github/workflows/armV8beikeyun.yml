@@ -62,7 +62,7 @@ jobs:
             - name: 上传rootfs
               uses: actions/upload-artifact@v2.2.4
               with:
-                name: openwrt-combined
+                name: rootfs
                 path: |
                     lede/bin/targets/*/*/*rootfs.tar.gz
             - name: Package Armvirt as OpenWrt
