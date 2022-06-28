@@ -28,22 +28,15 @@ jobs:
              
             - name: 克隆openwrt源码到工作目录
               run: |
-                pwd
-                df -h
-                lsblk
-                git clone -b openwrt-21.02 --single-branch https://github.com/immortalwrt/immortalwrt > /dev/null 2>&1
-                ls -al
+                git clone -b openwrt-21.02 --single-branch https://github.com/immortalwrt/immortalwrt
             - name: 自定义修改
               run: |
-                pwd
                 cd immortalwrt
-                ls -al
             - name: 更新feeds
               run: |
-                pwd
                 cd immortalwrt
-                ./scripts/feeds update -a > /dev/null 2>&1
-                ./scripts/feeds install -a > /dev/null 2>&1
+                ./scripts/feeds update -a
+                ./scripts/feeds install -a
                 ./scripts/feeds install -a
             - name: defconfig生成配置
               run: |
@@ -51,7 +44,6 @@ jobs:
                 rm -rf tmp
                 rm -rf .config
                 mv -f ../21.02.config .config
-                #cat .config
                 make defconfig
             - name: 开始编译
               run: |
