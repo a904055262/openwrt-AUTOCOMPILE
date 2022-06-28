@@ -27,22 +27,15 @@ jobs:
              
             - name: 克隆openwrt源码到工作目录
               run: |
-                pwd
-                df -h
-                lsblk
-                git clone https://github.com/coolsnowwolf/lede > /dev/null 2>&1
-                ls -al
+                git clone https://github.com/coolsnowwolf/lede
             - name: 自定义修改
               run: |
-                pwd
                 mv addCusPackage.sh lede/
                 cd lede
                 chmod +x addCusPackage.sh
                 ./addCusPackage.sh
-                ls -al
             - name: 更新feeds
               run: |
-                pwd
                 cd lede
                 ./scripts/feeds update -a > /dev/null 2>&1
                 ./scripts/feeds install -a > /dev/null 2>&1
