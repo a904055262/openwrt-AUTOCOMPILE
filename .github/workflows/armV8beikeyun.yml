@@ -59,10 +59,16 @@ jobs:
                 PACKAGE_SOC: s905d_beikeyun
                 KERNEL_VERSION_NAME: 5.15.50
                 KERNEL_AUTO_LATEST: true
-            - name: 上传打包的固件
+            - name: 上传打包的固件-beikeyun
               uses: actions/upload-artifact@v2.2.4
               with:
-                name: openwrt-flippy
+                name: openwrt-flippy-beikeyun
                 path: |
-                    /opt/openwrt_packit/output/*
+                    /opt/openwrt_packit/output/*beikeyun*
+            - name: 上传打包的固件-n1
+              uses: actions/upload-artifact@v2.2.4
+              with:
+                name: openwrt-flippy-n1
+                path: |
+                    /opt/openwrt_packit/output/*n1*
 
