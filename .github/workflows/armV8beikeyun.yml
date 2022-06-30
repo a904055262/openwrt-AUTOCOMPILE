@@ -61,7 +61,7 @@ jobs:
             - name: 上传打包的固件-beikeyun
               uses: actions/upload-artifact@v2.2.4
               with:
-                name: openwrt-flippy-beikeyun-5.4
+                name: openwrt-flippy-beikeyun
                 path: |
                     /opt/openwrt_packit/output/*beikeyun*
             - name: 上传打包的固件-n1
