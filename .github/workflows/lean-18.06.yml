@@ -58,4 +58,10 @@ jobs:
                 name: openwrt-combined
                 path: |
                     lede/bin/targets/*/*/*combined*
+            - name: 上传sysupgrade固件
+              uses: actions/upload-artifact@v2.2.4
+              with:
+                name: openwrt-sysupgrade
+                path: |
+                    lede/bin/targets/*/*/*sysupgrade*
             
