@@ -50,9 +50,6 @@ jobs:
               run: |
                 cd lede
                 
-                wget https://github.com/openwrt/packages/pull/19496.patch
-                git apply 19496.patch
-                
                 make -j8 download
                 make -j8 download
                 make -j$(($(nproc) + 1)) 
