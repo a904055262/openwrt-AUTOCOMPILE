@@ -23,7 +23,7 @@ jobs:
                 rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
 
             - name: 下载仓库文件到工作目录
-              uses: actions/checkout@v2.4.0
+              uses: actions/checkout@v3
              
             - name: 克隆openwrt源码到工作目录
               run: |
@@ -59,7 +59,7 @@ jobs:
                 PACKAGE_SOC: beikeyun
                 KERNEL_VERSION_NAME: 5.4.202
             - name: 上传打包的固件-beikeyun
-              uses: actions/upload-artifact@v2.2.4
+              uses: actions/upload-artifact@v3.1.1
               with:
                 name: openwrt-flippy-beikeyun
                 path: |
