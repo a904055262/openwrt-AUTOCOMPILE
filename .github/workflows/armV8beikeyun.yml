@@ -13,6 +13,7 @@ jobs:
               run: |
                 id
                 echo 工作目录:$PWD
+                df -h
                 sudo apt update -y
                 sudo apt full-upgrade -y
                 sudo apt install -y ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential \
