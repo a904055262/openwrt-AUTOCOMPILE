@@ -52,6 +52,13 @@ jobs:
                 make -j8 download
                 make -j8 download
                 make -j$(($(nproc) + 1))
+            - name: 删除文件腾出打包空间
+              run: |
+                cd lede
+                rm -rf build_dir
+                rm -rf dl
+                rm -rf tmp
+                df -h 
             - name: Package Armvirt as OpenWrt
               uses: unifreq/openwrt_packit@master
               env:
