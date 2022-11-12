@@ -62,16 +62,30 @@ jobs:
                 make -j8 download
                 make -j8 download
                 make -j$(($(nproc) + 1)) 
-            - name: 上传img固件
+            - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: openwrt-combined
+                name: efi
                 path: |
-                    lede/bin/targets/*/*/*combined*
-            - name: 上传sysupgrade固件
+                    lede/bin/targets/*/*/*combined-efi.img*
+                    
+            - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: openwrt-sysupgrade
+                name: efi.qcom2
                 path: |
-                    lede/bin/targets/*/*/*sysupgrade*
-            
+                    lede/bin/targets/*/*/*combined-efi.qcow2*
+                    
+            - name: 上传固件
+              uses: actions/upload-artifact@v3.1.1
+              with:
+                name: legacy
+                path: |
+                    lede/bin/targets/*/*/*combined.img*
+                    
+            - name: 上传固件
+              uses: actions/upload-artifact@v3.1.1
+              with:
+                name: legacy.qcom2
+                path: |
+                    lede/bin/targets/*/*/*combined.qcow2*
