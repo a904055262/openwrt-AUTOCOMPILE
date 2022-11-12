@@ -16,7 +16,7 @@ jobs:
                 df -h
                 docker rmi `docker images -q` > /dev/null 2>&1
                 sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android > /dev/null 2>&1
-                sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true > /dev/null 2>&1
+                sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd*  > /dev/null 2>&1
 
                 sudo apt update -y > /dev/null 2>&1
                 sudo apt full-upgrade -y > /dev/null 2>&1
