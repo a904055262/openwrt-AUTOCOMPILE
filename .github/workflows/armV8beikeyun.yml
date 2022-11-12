@@ -49,8 +49,10 @@ jobs:
             - name: 开始编译
               run: |
                 cd lede
+                df -h 
                 make -j8 download
                 make -j8 download
+                df -h
                 make -j$(($(nproc) + 1))
             - name: 删除文件腾出打包空间
               run: |
