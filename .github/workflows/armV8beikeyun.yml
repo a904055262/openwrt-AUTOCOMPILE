@@ -69,22 +69,15 @@ jobs:
               env:
                 OPENWRT_ARMVIRT: lede/bin/targets/*/*/*rootfs.tar.gz
                 PACKAGE_SOC: beikeyun
-                KERNEL_VERSION_NAME: 5.4.202_6.0.1_5.15.2
+                KERNEL_VERSION_NAME: 6.0.1_5.10.2
 
             - name: 上传打包的固件-beikeyun
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: openwrt-flippy-beikeyun-5.15
+                name: openwrt-flippy-beikeyun-5.10
                 path: |
-                    /opt/openwrt_packit/output/*beikeyun*k5.15.*
+                    /opt/openwrt_packit/output/*beikeyun*k5.10.*
 
-
-            - name: 上传打包的固件-beikeyun
-              uses: actions/upload-artifact@v3.1.1
-              with:
-                name: openwrt-flippy-beikeyun-5.4
-                path: |
-                    /opt/openwrt_packit/output/*beikeyun*k5.4.*
                     
             - name: 上传打包的固件-beikeyun
               uses: actions/upload-artifact@v3.1.1
