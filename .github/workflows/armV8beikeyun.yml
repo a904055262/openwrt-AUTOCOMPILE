@@ -64,13 +64,20 @@ jobs:
                 df -h
                 make -j$(($(nproc) + 1))
 
+            - name: 上传-rootfs
+              uses: actions/upload-artifact@v3.1.1
+              with:
+                name: arm64Rootfs
+                path: |
+                    lede/bin/targets/*/*/*rootfs.tar.gz
+                    
             - name: Package Armvirt as OpenWrt
               uses: unifreq/openwrt_packit@master
               env:
                 OPENWRT_ARMVIRT: lede/bin/targets/*/*/*rootfs.tar.gz
                 PACKAGE_SOC: beikeyun
                 KERNEL_VERSION_NAME: 6.0.1
-                    
+                
             - name: 上传打包的固件-beikeyun
               uses: actions/upload-artifact@v3.1.1
               with:
