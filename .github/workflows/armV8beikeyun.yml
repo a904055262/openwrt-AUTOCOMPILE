@@ -51,7 +51,7 @@ jobs:
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
                 mv ../delori.sh ./
-                chmod +X delori.sh
+                chmod +x delori.sh
                 ./delori.sh
             - name: defconfig生成配置
               run: |
