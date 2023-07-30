@@ -4,6 +4,9 @@ cd "$sdir"
 
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot package/cus/luci-app-autoreboot
 
+svn co https://github.com/brvphoenix/luci-app-wrtbwmon/trunk/luci-app-wrtbwmon package/cus/luci-app-wrtbwmon
+svn co https://github.com/brvphoenix/wrtbwmon/branches/new/wrtbwmon package/cus/wrtbwmon
+
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-uugamebooster package/cus/luci-app-uugamebooster
 svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/uugamebooster package/cus/uugamebooster 
 
