@@ -3,7 +3,6 @@ sdir=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd "$sdir"
 
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot package/cus/luci-app-autoreboot
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-accesscontrol package/cus/luci-app-accesscontrol
 
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-uugamebooster package/cus/luci-app-uugamebooster
 svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/uugamebooster package/cus/uugamebooster 
