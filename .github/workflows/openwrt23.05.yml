@@ -14,11 +14,11 @@ jobs:
                 id
                 echo 工作目录:$PWD
                 df -h
+                sudo apt update -y > /dev/null 2>&1
                 docker rmi `docker images -q` 
                 # sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android 
-                sudo apt -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk*  mysql* php* mongodb* dotnet* moby* snapd*  
+                sudo apt purge azure-cli ghc* zulu*  llvm* firefox google* dotnet* powershell openjdk*  mysql* php* mongodb* dotnet* moby* snapd*  
 
-                sudo apt update -y > /dev/null 2>&1
                 # sudo apt full-upgrade -y > /dev/null 2>&1
                 sudo apt install -y file clang ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential \
                 bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++ g++-multilib \
