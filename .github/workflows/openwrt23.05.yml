@@ -6,7 +6,7 @@ on:
 
 jobs:
     built:
-        runs-on: ubuntu-20.04
+        runs-on: Ubuntu 22.04
         
         steps:
             - name: 安装编译依赖
@@ -36,31 +36,34 @@ jobs:
              
             - name: 克隆openwrt源码到工作目录
               run: |
-                git clone https://github.com/coolsnowwolf/lede
+                git clone -b openwrt-23.05 --depth=1 https://github.com/openwrt/openwrt.git
             - name: 自定义修改
               run: |
-                mv addCusPackage.sh lede/
-                cd lede
-                chmod +x addCusPackage.sh
-                ./addCusPackage.sh
+                mv addCusPackage-22.sh openwrt/
+                cd openwrt
+                chmod +x addCusPackage-22.sh
+                ./addCusPackage-22.sh
             - name: 更新feeds
               run: |
-                cd lede
+                cd openwrt
                 ./scripts/feeds update -a > /dev/null 2>&1
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
-                mv ../delori.sh ./
-                chmod +x delori.sh
-                ./delori.sh
+            - name: fullcone补丁
+              run: |
+                mv fullcone-patch.sh openwrt/
+                cd openwrt
+                chmod +x fullcone-patch.sh
+                ./fullcone-patch.sh
             - name: defconfig生成配置
               run: |
-                cd lede
+                cd openwrt
                 rm -rf tmp
-                mv -f ../x86-qemu-lite.config ./.config
+                mv -f ../x86.23.05.config ./.config
                 make defconfig
             - name: 开始编译
               run: |
-                cd lede
+                cd openwrt
                 
                 make -j8 download
                 make -j8 download
@@ -68,27 +71,13 @@ jobs:
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: openwrt-lean-efi
+                name: openwrt-efi
                 path: |
-                    lede/bin/targets/*/*/*combined-efi.img*
+                    openwrt/bin/targets/*/*/*combined-efi.img*
                     
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: openwrt-lean-efi.qcom2
+                name: openwrt-legacy
                 path: |
-                    lede/bin/targets/*/*/*combined-efi.qcow2*
-                    
-            - name: 上传固件
-              uses: actions/upload-artifact@v3.1.1
-              with:
-                name: openwrt-lean-legacy
-                path: |
-                    lede/bin/targets/*/*/*combined.img*
-                    
-            - name: 上传固件
-              uses: actions/upload-artifact@v3.1.1
-              with:
-                name: openwrt-lean-legacy.qcom2
-                path: |
-                    lede/bin/targets/*/*/*combined.qcow2*
+                    openwrt/bin/targets/*/*/*combined.img*
