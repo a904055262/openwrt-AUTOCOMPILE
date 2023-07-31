@@ -16,7 +16,9 @@ jobs:
                 
                 df -h
                 
-                apt list --installed 
+                apt list --installed | awk -F / '{print $1}' | grep -E '^dotnet|^firefox|^php[0-9]' | apt purge 
+                
+                df -h
                 exit
                 
                 
