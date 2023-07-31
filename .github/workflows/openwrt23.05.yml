@@ -17,8 +17,8 @@ jobs:
                 df -h
 
                 docker rmi `docker images -q` 
-                sudo rm -rf /usr/share/dotnet  /etc/php  
-                sudo apt purge -y  dotnet*  php*
+                sudo rm -rf /usr/share/dotnet  /etc/php  /etc/mysql
+                sudo apt purge -y  dotnet* php* mysql* 
 
                 df -h
 
