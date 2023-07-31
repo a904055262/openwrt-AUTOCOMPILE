@@ -16,21 +16,21 @@ jobs:
                 
                 df -h
 
-                docker rmi `docker images -q` 
-                sudo apt purge -y  dotnet* php* mysql* llvm* google* openjdk*
+                docker rmi `docker images -q` >/dev/null
+                sudo apt purge -y  dotnet* php* mysql* llvm* google* openjdk* >/dev/null
                 
-                sudo rm -rf /usr/share/dotnet  /etc/php  /etc/mysql /usr/local/lib/android 
+                sudo rm -rf /usr/share/dotnet  /etc/php  /etc/mysql /usr/local/lib/android >/dev/null
                 
                 df -h
 
             - name: 安装编译依赖
               run: |
-                sudo apt update -y 
-                sudo apt upgrade -y
+                sudo apt update -y >/dev/null
+                #sudo apt upgrade -y
                 
                 sudo apt install -y build-essential clang flex bison g++ gawk gcc-multilib g++-multilib \
                 gettext git libncurses-dev libssl-dev python3-distutils rsync unzip zlib1g-dev \
-                file wget
+                file wget >/dev/null
                 
                 #sudo apt install -y file clang ack antlr3 aria2 asciidoc autoconf automake autopoint binutils bison build-essential \
                 #bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++ g++-multilib \
@@ -39,8 +39,8 @@ jobs:
                 #mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-distutils python3-pip libpython3-dev qemu-utils \
                 #rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev 
                 
-                sudo apt -y autoremove --purge 
-                sudo apt clean 
+                sudo apt -y autoremove --purge >/dev/null
+                sudo apt clean >/dev/null
                 
                 df -h
             - name: 下载仓库文件到工作目录
