@@ -17,7 +17,7 @@ jobs:
                 df -h
                 
                 apt list --installed 
-                
+                exit
                 
                 
                 sudo apt update -y 
