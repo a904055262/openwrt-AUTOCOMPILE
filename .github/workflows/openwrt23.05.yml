@@ -16,6 +16,10 @@ jobs:
                 
                 df -h
                 
+                apt list --installed 
+                
+                
+                
                 sudo apt update -y 
                 docker rmi `docker images -q` 
                 sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php  /usr/local/lib/android 
