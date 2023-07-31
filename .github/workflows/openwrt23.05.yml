@@ -15,19 +15,13 @@ jobs:
                 echo 工作目录:$PWD
                 
                 df -h
-                
-                apt list --installed | awk -F / '{print $1}' | grep -E '^dotnet|^firefox|^php[0-9]' | apt purge 
-                
-                df -h
-                exit
-                
-                
-                sudo apt update -y 
+
                 docker rmi `docker images -q` 
                 sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php  /usr/local/lib/android 
-                sudo apt purge azure-cli ghc* zulu*  llvm* firefox google* dotnet* powershell openjdk*  mysql* php* mongodb* dotnet* moby* snapd*  
+                sudo apt purge -y azure-cli ghc* zulu*  llvm* firefox google* dotnet*  mysql* php* mongodb* dotnet* moby* snapd*  
 
                 df -h
+                exit
             - name: 安装编译依赖
               run: |
                 sudo apt update -y 
