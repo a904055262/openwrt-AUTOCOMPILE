@@ -14,6 +14,7 @@ svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/l
 
 git clone --depth=1 https://github.com/tty228/luci-app-wechatpush package/cus/luci-app-wechatpush 
 git clone -b js --depth=1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/cus/luci-app-unblockneteasemusic
+git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata package/cus/luci-app-netdata
 
 
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-usb-printer package/cus/luci-app-usb-printer
@@ -27,9 +28,6 @@ svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/msd_li
 
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpulimit package/cus/luci-app-cpulimit 
 svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/utils/cpulimit package/cus/cpulimit
-
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-netdata package/cus/luci-app-netdata
-#svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/admin/netdata package/cus/netdata
 
 
 
