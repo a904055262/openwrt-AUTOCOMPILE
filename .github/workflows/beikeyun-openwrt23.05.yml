@@ -104,7 +104,7 @@ jobs:
                 chmod +x cprootfstobeikeyun.sh
                 sudo ./cprootfstobeikeyun.sh
                 cd /opt/openwrt_packit
-                chmod +x ./mk_rk3328_beikeyun.sh
+                sudo chmod +x ./mk_rk3328_beikeyun.sh
                 sudo ./mk_rk3328_beikeyun.sh
               
             - name: 上传固件
