@@ -107,12 +107,13 @@ jobs:
                 cd /opt/openwrt_packit
                 sudo chmod +x ./mk_rk3328_beikeyun.sh
                 sudo ./mk_rk3328_beikeyun.sh
-              
+                cd output
+                tar zcf o.tar.gz *.img
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
                 name: beikeyun
                 path: |
-                    /opt/openwrt_packit/output/*
+                    /opt/openwrt_packit/output/*.gz
                     
 
