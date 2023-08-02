@@ -1,0 +1,149 @@
+
+diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci
+--- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-08-02 07:28:06.584300351 +0000
++++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-08-02 13:26:52.326485754 +0000
+@@ -538,7 +538,69 @@
+ 		call: function() {
+ 			return { result: process_list() };
+ 		}
+-	}
++	},
++	
++	getCPUUsage: {
++		call: function() {
++			const fd = popen('top -n1 | grep -E -i cpu -m1 | grep -oE \'[0-9.%]+ \'| sed -n \'4p\' | sed \'s/%//\'');
++			if (fd) {
++				let cpuusage = fd.read('all');
++				if (cpuusage === ''){
++					cpuusage = '??';
++				}else{
++					cpuusage = 100 - cpuusage;
++				}
++				fd.close();
++
++				return { cpuusage: cpuusage + '%' };
++			} else {
++				return { cpuusage: 'error' };
++			}
++		}
++	},
++	
++	getTempInfo: {
++		call: function() {
++			let fd = popen('cat /sys/class/thermal/thermal_zone0/temp  2>/dev/null');
++			if (fd){
++				let tempinfo = fd.read('all');
++				if (tempinfo === ''){
++					tempinfo = '??';
++				} else {
++					tempinfo = tempinfo/1000 + '℃';
++				}
++				fd.close();
++				return { tempinfo: tempinfo };
++				
++			} else {
++				return { tempinfo: 'error' };
++			}
++
++		}
++	},
++	
++	getCpuFreq: {
++		call: function() {
++			let fd = popen('cat /proc/cpuinfo  | grep -i mhz | grep -Eo \'[0-9.]+\' | awk -F . \'{printf("%.1f ",$1/1000)}\'');
++			if (fd){
++				let cpufreq = fd.read('all');
++				if (cpufreq === '') {
++					fd.close();
++					 
++					fd = popen('cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq | awk -F . \'{printf("%.1f ",$1/1000000)}\'');
++					cpufreq = fd.read('all');
++					fd.close();
++				} else {
++					fd.close();
++				}
++				
++				return { cpufreq: cpufreq };
++			} else {
++				return { cpufreq: 'error' };
++			}
++
++		}
++	},
+ };
+ 
+ return { luci: methods };
+
+diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+--- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-08-02 08:22:08.481134720 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-08-02 13:27:09.258833123 +0000
+@@ -18,6 +18,21 @@
+ 	method: 'info'
+ });
+ 
++var callCPUUsage = rpc.declare({
++	object: 'luci',
++	method: 'getCPUUsage'
++});
++
++var callTempInfo = rpc.declare({
++	object: 'luci',
++	method: 'getTempInfo'
++});
++
++var callCpuFreq = rpc.declare({
++	object: 'luci',
++	method: 'getCpuFreq'
++});
++
+ return baseclass.extend({
+ 	title: _('System'),
+ 
+@@ -25,14 +40,20 @@
+ 		return Promise.all([
+ 			L.resolveDefault(callSystemBoard(), {}),
+ 			L.resolveDefault(callSystemInfo(), {}),
+-			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' })
++			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' }),
++			L.resolveDefault(callCPUUsage(), {}),
++			L.resolveDefault(callTempInfo(), {}),
++			L.resolveDefault(callCpuFreq(), {}),
+ 		]);
+ 	},
+ 
+ 	render: function(data) {
+ 		var boardinfo   = data[0],
+ 		    systeminfo  = data[1],
+-		    luciversion = data[2];
++		    luciversion = data[2],
++			cpuusage    = data[3],
++			tempinfo    = data[4],
++			cpufreq     = data[5];
+ 
+ 		luciversion = luciversion.branch + ' ' + luciversion.revision;
+ 
+@@ -64,7 +85,9 @@
+ 				systeminfo.load[0] / 65535.0,
+ 				systeminfo.load[1] / 65535.0,
+ 				systeminfo.load[2] / 65535.0
+-			) : null
++			) : null,
++			_('CPU'),    cpuusage.cpuusage + ' | 温度: ' + tempinfo.tempinfo + ' | 频率: ' + cpufreq.cpufreq,
++
+ 		];
+ 
+ 		var table = E('table', { 'class': 'table' });
+
+diff -ur feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+--- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-08-02 08:20:22.477636218 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-08-02 13:27:21.755089477 +0000
+@@ -3,7 +3,7 @@
+ 		"description": "Grant access to realtime statistics",
+ 		"read": {
+ 			"ubus": {
+-				"luci": [ "getConntrackList", "getRealtimeStats" ],
++				"luci": [ "getConntrackList", "getRealtimeStats" , "getCPUUsage", "getTempInfo", "getCpuFreq" ],
+ 				"network.rrdns": [ "lookup" ]
+ 			}
+ 		}
+
