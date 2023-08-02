@@ -61,6 +61,15 @@ jobs:
                 ./scripts/feeds update -a > /dev/null 2>&1
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
+                
+            - name: 主页CPU信息补丁
+              run: |
+                mv patch-luci-status.sh openwrt/
+                mv luci-status-patch.patch
+                cd openwrt
+                chmod +x patch-luci-status.sh
+                ./patch-luci-status.sh
+                
             - name: fullcone补丁
               run: |
                 mv fullcone-patch.sh openwrt/
