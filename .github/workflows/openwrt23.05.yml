@@ -65,7 +65,7 @@ jobs:
             - name: 主页CPU信息补丁
               run: |
                 mv patch-luci-status.sh openwrt/
-                mv luci-status-patch.patch
+                mv luci-status-patch.patch openwrt/
                 cd openwrt
                 chmod +x patch-luci-status.sh
                 ./patch-luci-status.sh
