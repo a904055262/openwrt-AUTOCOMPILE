@@ -49,18 +49,20 @@ jobs:
             - name: 克隆openwrt源码到工作目录
               run: |
                 git clone -b openwrt-23.05 --depth=1 https://github.com/openwrt/openwrt.git
-            - name: 自定义修改
-              run: |
-                mv addCusPackage-22.sh openwrt/
-                cd openwrt
-                chmod +x addCusPackage-22.sh
-                ./addCusPackage-22.sh
+
             - name: 更新feeds
               run: |
                 cd openwrt
                 ./scripts/feeds update -a > /dev/null 2>&1
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
+                
+            - name: 自定义修改
+              run: |
+                mv addCusPackage-22.sh openwrt/
+                cd openwrt
+                chmod +x addCusPackage-22.sh
+                ./addCusPackage-22.sh
                 
             - name: 主页CPU信息补丁
               run: |
