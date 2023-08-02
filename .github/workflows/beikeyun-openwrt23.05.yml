@@ -95,6 +95,7 @@ jobs:
                 
             - name: 生成beikeyun固件
               run: |
+                sudo apt -y install util-linux fdisk uuidgen parted gawk
                 sudo mkdir -p /opt
                 sudo git clone --depth=1 https://github.com/unifreq/openwrt_packit /opt/openwrt_packit
                 sudo mv beikeyun-kernel /opt/kernel
