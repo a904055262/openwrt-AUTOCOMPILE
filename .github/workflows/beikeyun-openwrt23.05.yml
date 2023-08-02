@@ -1,4 +1,4 @@
-name: 编译openwrt23.05
+name: 编译beikeyun-openwrt23.05.yml
 on:
     schedule:
       - cron: 0 0 */7 * * 
