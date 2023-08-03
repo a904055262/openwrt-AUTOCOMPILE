@@ -60,12 +60,29 @@ done
 
 echo 下载内核补丁
 
-curl -f -L --connect-timeout 10 -m 90 -O https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
-if [ $? -eq 0 ];then 
-	echo 所有补丁包全部就位
-else
-	echo 下载内核补丁失败
-	exit 1
+if [ -d ../target/linux/generic/hack-5.15 ];then 
+	echo '--下载5.15'
+	curl -f -L --connect-timeout 10 -m 90 -o ../target/linux/generic/hack-5.15/952-net-conntrack-events-support-multiple-registrant.patch  \
+		https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
+	if [ $? -ne 0 ];then 
+		echo 下载内核补丁失败
+		exit 1
+	else
+		echo '--成功'
+	fi
+	
+fi
+
+if [ -d ../target/linux/generic/hack-6.1 ];then 
+	echo '--下载6.1'
+	curl -f -L --connect-timeout 10 -m 90 -o ../target/linux/generic/hack-6.1/952-net-conntrack-events-support-multiple-registrant.patch  \
+		https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/952-net-conntrack-events-support-multiple-registrant.patch
+	if [ $? -ne 0 ];then 
+		echo 下载内核补丁失败
+		exit 1
+	else
+		echo '--成功'
+	fi
 fi
 
 
@@ -80,7 +97,6 @@ rPath=(
 ['firewall4']='../package/network/config/'
 ['nft-fullcone']='../package/'
 ['luci-app-firewall']='../feeds/luci/applications/'
-['952-add-net-conntrack-events-support-multiple-registrant.patch']='../target/linux/generic/hack-5.15/'
 )
 
 for d in "${!rPath[@]}";do

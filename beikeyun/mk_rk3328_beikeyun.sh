@@ -168,6 +168,13 @@ config_first_run
 write_uboot_to_disk
 clean_work_env
 mv ${TGT_IMG} ${OUTPUT_DIR} && sync
+echo "压缩镜像"
+cd ${OUTPUT_DIR}
+imgname=$(basename ${TGT_IMG})
+tar zcf ${imgname}.tar.gz $imgname
+rm -f $imgname
+ls -hl
 echo "镜像已生成! 存放在 ${OUTPUT_DIR} 下面!"
+
 echo "========================== end $0 ================================"
 echo

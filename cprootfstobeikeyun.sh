@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+sdir=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+cd "$sdir"
+
 echo 复制rootfs到/opt/openwrt_packit目录
 rootfs=bin/targets/armvirt/64/openwrt-armvirt-64-default-rootfs.tar.gz
 if [ ! -e $rootfs ];then
