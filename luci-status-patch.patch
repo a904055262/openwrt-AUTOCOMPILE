@@ -147,7 +147,7 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  			_('Kernel Version'),   boardinfo.kernel,
  			_('Local Time'),       datestr,
 -			_('Uptime'),           systeminfo.uptime ? '%t'.format(systeminfo.uptime) : null,
-+			_('Uptime'),           (systeminfo.uptime ? '%t'.format(systeminfo.uptime) : null) + ' | 在线人数: ' + onlineusers.onlineusers,
++			_('Uptime'),           (systeminfo.uptime ? '%t'.format(systeminfo.uptime) : null) + ' | 在线设备: ' + onlineusers.onlineusers,
  			_('Load Average'),     Array.isArray(systeminfo.load) ? '%.2f, %.2f, %.2f'.format(
  				systeminfo.load[0] / 65535.0,
  				systeminfo.load[1] / 65535.0,
