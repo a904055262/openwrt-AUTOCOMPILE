@@ -91,7 +91,7 @@ jobs:
                 sudo mkdir -p /opt
                 sudo git clone --depth=1 https://github.com/unifreq/openwrt_packit /opt/openwrt_packit
                 sudo mv beikeyun-kernel /opt/kernel
-                sudo cp -f beikeyun/* /opt/openwrt_packit/
+                sudo cp -vrf beikeyun/* /opt/openwrt_packit/
                 mv cprootfstobeikeyun.sh openwrt/
                 cd openwrt
                 chmod +x cprootfstobeikeyun.sh
