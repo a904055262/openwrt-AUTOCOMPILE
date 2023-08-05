@@ -73,7 +73,7 @@ jobs:
                 
             - name: chinadefault设置
               run: |
-                mv chinadefault.sh openwrt/
+                mv chinadefault.sh files.tar.gz openwrt/
                 cd openwrt
                 chmod +x chinadefault.sh
                 ./chinadefault.sh
