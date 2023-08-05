@@ -5,6 +5,7 @@ cd "$sdir"
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot package/cus/luci-app-autoreboot
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-vsftpd package/cus/luci-app-vsftpd
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpufreq package/cus/luci-app-cpufreq
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/cus/luci-app-openclash
 
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-gowebdav package/cus/luci-app-gowebdav 
 svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/gowebdav package/cus/gowebdav
