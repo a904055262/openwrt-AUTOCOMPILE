@@ -22,6 +22,16 @@ EOF
 chmod +x /etc/coremark.sh
 echo '0 4 * * * /etc/coremark.sh firstbenchmark' >> /etc/crontabs/root
 
+if [ -f /etc/dnsmasq.conf ];then
+	sed -i -E '/^log-facility=/d' /etc/dnsmasq.conf
+	echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
+fi
+
+if [ -f /etc/config/upnpd ];then
+	uci set upnpd.config.external_ip='223.5.5.5'
+	uci commit upnpd
+fi
+
 if [ -x /bin/bash ];then
 	sed -E -i '/^root/{s#:/bin/.*#:/bin/bash#}' /etc/passwd
 fi
