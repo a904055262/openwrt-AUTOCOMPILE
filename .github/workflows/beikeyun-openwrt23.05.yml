@@ -70,6 +70,14 @@ jobs:
                 cd openwrt
                 chmod +x fullcone-patch.sh
                 ./fullcone-patch.sh
+                
+            - name: chinadefault设置
+              run: |
+                mv chinadefault.sh openwrt/
+                cd openwrt
+                chmod +x chinadefault.sh
+                ./chinadefault.sh
+
             - name: defconfig生成配置
               run: |
                 cd openwrt
