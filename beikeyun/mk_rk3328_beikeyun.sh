@@ -44,7 +44,7 @@ BOOT_SCR="${PWD}/files/boot.scr"
 #PWM_FAN="${PWD}/files/pwm-fan.pllllllll"
 #DAEMON_JSON="${PWD}/files/rk3328/daemon.json"
 
-TTYD="${PWD}/files/ttyd"
+#TTYD="${PWD}/files/ttyd"
 #FLIPPY="${PWD}/files/scripts_deprecated/flippy_cn"
 BANNER="${PWD}/files/banner"
 
