@@ -32,7 +32,7 @@ TGT_IMG="${WORK_DIR}/openwrt_${SOC}_${BOARD}_${OPENWRT_VER}_k${KERNEL_VERSION}${
 ####################################################################
 CPUSTAT_SCRIPT="${PWD}/files/cpustat"
 CPUSTAT_SCRIPT_PY="${PWD}/files/cpustat.py"
-INDEX_PATCH_HOME="${PWD}/files/index.html.patches"
+#INDEX_PATCH_HOME="${PWD}/files/index.html.patches"
 GETCPU_SCRIPT="${PWD}/files/getcpu"
 KMOD="${PWD}/files/kmod"
 KMOD_BLACKLIST="${PWD}/files/kmod_blacklist"
@@ -41,20 +41,20 @@ FIRSTRUN_SCRIPT="${PWD}/files/first_run.sh"
 BOOT_CMD="${PWD}/files/boot.cmd"
 BOOT_SCR="${PWD}/files/boot.scr"
 
-PWM_FAN="${PWD}/files/pwm-fan.pllllllll"
-DAEMON_JSON="${PWD}/files/rk3328/daemon.json"
+#PWM_FAN="${PWD}/files/pwm-fan.pllllllll"
+#DAEMON_JSON="${PWD}/files/rk3328/daemon.json"
 
 TTYD="${PWD}/files/ttyd"
-FLIPPY="${PWD}/files/scripts_deprecated/flippy_cn"
+#FLIPPY="${PWD}/files/scripts_deprecated/flippy_cn"
 BANNER="${PWD}/files/banner"
 
 # 20200314 add
 FMW_HOME="${PWD}/files/firmware"
-SMB4_PATCH="${PWD}/files/smb4.11_enable_smb1.patch"
+#SMB4_PATCH="${PWD}/files/smb4.11_enable_smb1.patch"
 SYSCTL_CUSTOM_CONF="${PWD}/files/99-custom.conf"
 
 # 20200709 add
-COREMARK="${PWD}/files/coremark.sh"
+#COREMARK="${PWD}/files/coremark.sh"
 
 # 20201024 add
 BAL_ETH_IRQ="${PWD}/files/balethirq.pl"
@@ -92,11 +92,11 @@ FORCE_REBOOT="${PWD}/files/rk3328/reboot"
 # 20210923 add
 OPENWRT_KERNEL="${PWD}/files/openwrt-kernel"
 OPENWRT_BACKUP="${PWD}/files/openwrt-backup"
-OPENWRT_UPDATE="${PWD}/files/openwrt-update-rockchip"
+#OPENWRT_UPDATE="${PWD}/files/openwrt-update-rockchip"
 # 20211214 add
 P7ZIP="${PWD}/files/7z"
 # 20211217 add
-DDBR="${PWD}/files/openwrt-ddbr"
+#DDBR="${PWD}/files/openwrt-ddbr"
 # 20220225 add
 SSH_CIPHERS="aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr,chacha20-poly1305@openssh.com"
 SSHD_CIPHERS="aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr"
