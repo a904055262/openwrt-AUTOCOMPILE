@@ -92,7 +92,7 @@ FORCE_REBOOT="${PWD}/files/rk3328/reboot"
 # 20210923 add
 OPENWRT_KERNEL="${PWD}/files/openwrt-kernel"
 OPENWRT_BACKUP="${PWD}/files/openwrt-backup"
-#OPENWRT_UPDATE="${PWD}/files/openwrt-update-rockchip"
+OPENWRT_UPDATE="${PWD}/files/openwrt-update-rockchip"
 # 20211214 add
 P7ZIP="${PWD}/files/7z"
 # 20211217 add
@@ -164,7 +164,7 @@ copy_uboot_to_fs
 write_release_info
 write_banner
 config_first_run
-#create_snapshot "etc-000"
+create_snapshot "etc-000"
 write_uboot_to_disk
 clean_work_env
 mv ${TGT_IMG} ${OUTPUT_DIR} && sync
