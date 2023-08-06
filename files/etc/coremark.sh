@@ -1,8 +1,6 @@
 #!/bin/sh
 
-if [ "$1" = 'firstbenchmark' ];then
-	sed -i -E '/coremark\.sh\s+firstbenchmark/d' /etc/crontabs/root
-fi
+sed -i -E '/coremark\.sh/d' /etc/crontabs/root
 
 echo 开始执行coremark跑分: 
 if ! command -v coremark >/dev/null;then
