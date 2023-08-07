@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "$(cd $(dirname ${BASH_SOURCE[0]}); pwd)"
 
 echo "========================= begin $0 ================="
 source make.env
