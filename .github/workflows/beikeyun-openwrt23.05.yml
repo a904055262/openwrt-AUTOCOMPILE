@@ -17,6 +17,7 @@ jobs:
                 df -h
 
                 docker rmi `docker images -q` >/dev/null
+                sudo apt update >/dev/null
                 sudo apt purge -y  dotnet* php* mysql* llvm*  >/dev/null
                 
                 sudo rm -rf /usr/share/dotnet  /etc/php  /etc/mysql /usr/local/lib/android >/dev/null
