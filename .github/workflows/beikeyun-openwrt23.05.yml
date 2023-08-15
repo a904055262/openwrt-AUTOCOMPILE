@@ -40,8 +40,10 @@ jobs:
              
             - name: 克隆openwrt源码到工作目录
               run: |
-                git clone -b openwrt-23.05 --depth=1 https://github.com/openwrt/openwrt.git
-
+                version=$(git ls-remote --tags https://github.com/openwrt/openwrt | grep -v '{}' | awk -F '/' '{print $NF}' | grep -E 'v2[0-9]' | sort -nr | head -n1)
+                echo "version: $version"
+                
+                git clone -b "$version" --depth=1 https://github.com/openwrt/openwrt.git
             - name: 更新feeds
               run: |
                 cd openwrt
