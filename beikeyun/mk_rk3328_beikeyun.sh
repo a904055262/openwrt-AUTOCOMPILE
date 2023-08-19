@@ -32,7 +32,7 @@ TGT_IMG="${WORK_DIR}/openwrt_${SOC}_${BOARD}_${OPENWRT_VER}_k${KERNEL_VERSION}${
 # patches、scripts
 ####################################################################
 CPUSTAT_SCRIPT="${PWD}/files/cpustat"
-CPUSTAT_SCRIPT_PY="${PWD}/files/cpustat.py"
+#CPUSTAT_SCRIPT_PY="${PWD}/files/cpustat.py"
 #INDEX_PATCH_HOME="${PWD}/files/index.html.patches"
 GETCPU_SCRIPT="${PWD}/files/getcpu"
 KMOD="${PWD}/files/kmod"
@@ -75,7 +75,7 @@ SS_BIN="${PWD}/files/ss-glibc/armv8a_crypto/ss-bin-glibc.tar.xz"
 JQ="${PWD}/files/jq"
 
 # 20210330 add
-DOCKERD_PATCH="${PWD}/files/dockerd.patch"
+#DOCKERD_PATCH="${PWD}/files/dockerd.patch"
 
 # 20200416 add
 FIRMWARE_TXZ="${PWD}/files/firmware_armbian.tar.xz"
@@ -84,16 +84,16 @@ GET_RANDOM_MAC="${PWD}/files/get_random_mac.sh"
 BOOTLOADER_IMG="${PWD}/files/rk3328/btld-rk3328.bin"
 
 # 20210618 add
-DOCKER_README="${PWD}/files/DockerReadme.pdf"
+#DOCKER_README="${PWD}/files/DockerReadme.pdf"
 
 # 20210704 add
 SYSINFO_SCRIPT="${PWD}/files/30-sysinfo.sh"
 FORCE_REBOOT="${PWD}/files/rk3328/reboot"
 
 # 20210923 add
-OPENWRT_KERNEL="${PWD}/files/openwrt-kernel"
+#OPENWRT_KERNEL="${PWD}/files/openwrt-kernel"
 OPENWRT_BACKUP="${PWD}/files/openwrt-backup"
-OPENWRT_UPDATE="${PWD}/files/openwrt-update-rockchip"
+#OPENWRT_UPDATE="${PWD}/files/openwrt-update-rockchip"
 # 20211214 add
 P7ZIP="${PWD}/files/7z"
 # 20211217 add
@@ -109,7 +109,7 @@ check_depends
 
 SKIP_MB=16
 BOOT_MB=160
-ROOTFS_MB=1200
+ROOTFS_MB=2000
 SIZE=$((SKIP_MB + BOOT_MB + ROOTFS_MB))
 create_image "$TGT_IMG" "$SIZE"
 create_partition "$TGT_DEV" "msdos" "$SKIP_MB" "$BOOT_MB" "ext4" "0" "-1" "btrfs"
