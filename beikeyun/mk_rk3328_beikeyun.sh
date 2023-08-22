@@ -60,8 +60,8 @@ SYSCTL_CUSTOM_CONF="${PWD}/files/99-custom.conf"
 # 20201024 add
 BAL_ETH_IRQ="${PWD}/files/balethirq.pl"
 # 20201026 add
-FIX_CPU_FREQ="${PWD}/files/fixcpufreq.pl"
-SYSFIXTIME_PATCH="${PWD}/files/sysfixtime.patch"
+#FIX_CPU_FREQ="${PWD}/files/fixcpufreq.pl"
+#SYSFIXTIME_PATCH="${PWD}/files/sysfixtime.patch"
 
 # 20201128 add
 SSL_CNF_PATCH="${PWD}/files/openssl_engine.patch"
