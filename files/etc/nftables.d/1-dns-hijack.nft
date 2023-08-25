@@ -1,0 +1,4 @@
+chain dns_hijack {
+	type nat hook prerouting priority dstnat - 10; policy accept;
+	meta l4proto { tcp, udp } th dport 53 counter redirect to :53
+}
