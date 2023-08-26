@@ -1,0 +1,25 @@
+name: test
+on:
+    workflow_dispatch:
+
+jobs:
+    env:
+        a: 1
+        b: 2
+    built:
+        runs-on: ubuntu-22.04
+        
+        steps:
+
+            - name: 下载仓库文件到工作目录
+              uses: actions/checkout@v3
+           
+            - name: 下载仓库文件到工作目录
+              run: |
+              a=3
+            - name: 上传固件
+              uses: actions/upload-artifact@v3.1.1
+              with:
+                name: ${{a}}.x
+                path: |
+                    arm*
