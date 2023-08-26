@@ -29,6 +29,8 @@ echo "Use $OPWRT_ROOTFS_GZ as openwrt rootfs!"
 # Target Image
 TGT_IMG="${WORK_DIR}/openwrt_${SOC}_${BOARD}_${OPENWRT_VER}_k${KERNEL_VERSION}${SUBVER}.img"
 
+echo "$KERNEL_VERSION" > /tmp/kversion
+
 # patches、scripts
 ####################################################################
 CPUSTAT_SCRIPT="${PWD}/files/cpustat"

@@ -48,7 +48,7 @@ jobs:
                 date=$(TZ="UTC-8" date '+%Y-%m-%d_%H-%M')
                 echo "date: $date"
                 
-                echo "filename=$version-$date" >> $GITHUB_OUTPUT
+                echo "filename=$version_$date" >> $GITHUB_OUTPUT
                 
                 git clone -b "$version" --depth=1 https://github.com/openwrt/openwrt.git
             - name: 更新feeds
@@ -100,6 +100,7 @@ jobs:
                 df -h
                 
             - name: 生成beikeyun固件
+              id: kversion
               run: |
 
                 sudo mkdir -p /opt
@@ -113,11 +114,15 @@ jobs:
                 cd /opt/openwrt_packit
                 sudo chmod +x ./mk_rk3328_beikeyun.sh
                 sudo ./mk_rk3328_beikeyun.sh
-
+                
+                kversion=$(cat /tmp/kversion)
+                
+                echo "kversion=$kversion" >> $GITHUB_OUTPUT
+                
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: beikeyun-${{steps.filename.outputs.filename}}
+                name: beikeyun-${{steps.kversion.outputs.kversion}}-${{steps.filename.outputs.filename}}
                 path: |
                     /opt/openwrt_packit/output/*.gz
                     
