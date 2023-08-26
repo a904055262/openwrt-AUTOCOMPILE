@@ -15,14 +15,12 @@ jobs:
               uses: actions/checkout@v3
            
             - name: 变量
+              id: output
               run: |
-               a=3
-               echo $a
-               '${{env.a = 5}}'
-               echo "hi ${{env.a}}"
+               echo "date=$(date)" >> $GITHUB_OUTPUT
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: ${{env.a}}fff
+                name: ${{steps.output.outputs.date}}ffff
                 path: |
                     arm*
