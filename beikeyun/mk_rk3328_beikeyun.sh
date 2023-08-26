@@ -172,8 +172,8 @@ mv ${TGT_IMG} ${OUTPUT_DIR} && sync
 echo "压缩镜像"
 cd ${OUTPUT_DIR}
 imgname=$(basename ${TGT_IMG})
-tar zcf ${imgname}.tar.gz $imgname
-rm -f $imgname
+gzip -v $imgname
+
 ls -hl
 echo "镜像已生成! 存放在 ${OUTPUT_DIR} 下面!"
 
