@@ -18,9 +18,9 @@ jobs:
               run: |
                a=3
                echo $a
-               echo 'hi ${a}'
-               echo "hi ${a}"
-               echo "hi ${{a}}"
+               echo 'hi ${env.a}'
+               echo "hi ${env.a}"
+               echo "hi ${{env.a}}"
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
