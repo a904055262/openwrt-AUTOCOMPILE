@@ -3,12 +3,12 @@ on:
     workflow_dispatch:
 
 jobs:
-    env:
-        a: 1
-        b: 2
+
     built:
         runs-on: ubuntu-22.04
-        
+        env:
+         a: 1
+         b: 2
         steps:
 
             - name: 下载仓库文件到工作目录
