@@ -18,6 +18,7 @@ jobs:
               run: |
                a=3
                echo $a
+               '${{env.a = 5}}'
                echo "hi ${{env.a}}"
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
