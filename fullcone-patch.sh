@@ -6,6 +6,7 @@
 # https://github.com/wongsyrone/lede-1/tree/master/package/network/config/firewall4
 # https://github.com/wongsyrone/luci-1/tree/master/applications/luci-app-firewall
 # https://github.com/fullcone-nat-nftables/nft-fullcone.git
+# https://github.com/wongsyrone/lede-1/tree/master/package/external/nft-fullcone
 # https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
 #脚本所在路径
 sdir=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
