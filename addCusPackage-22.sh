@@ -36,7 +36,10 @@ svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/msd_li
 svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpulimit package/cus/luci-app-cpulimit 
 svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/utils/cpulimit package/cus/cpulimit
 
-
+find package -type l -name 'miniupnpd'  -delete 
+find package -type l -name 'luci-app-upnp'  -delete 
+svn co https://github.com/jjm2473/packages/branches/istoreos-23.05/net/miniupnpd package/cus/miniupnpd
+svn co https://github.com/jjm2473/luci/branches/istoreos-23.05/applications/luci-app-upnp package/cus/luci-app-upnp
 
 ln -sf ../feeds/luci/luci.mk package/luci.mk
 rm -rf tmp
