@@ -46,17 +46,26 @@ cd fullconepatch
 
 for d in "${!dlAddr[@]}";do
 	echo "-下载大佬打过补丁的: $d"
-	if [ ! -d $d ];then 
-		if ! svn co "${dlAddr[$d]}" $d;then 
+	rm -rf $d
+	
+	for i in {1..5};do
+		echo $i
+		
+		if svn export "${dlAddr[$d]}" $d >/dev/null;then
+			echo -成功
+			break
+		fi
+		
+		if (( i == 5));then 
 			echo "下载$d失败，脚本退出，请重新运行脚本，尝试重新下载"
 			exit 1
 		fi
-	else 
-		echo '发现已经下载好的，尝试更新'
-		cd $d
-		svn up
-		cd - > /dev/null
-	fi
+		
+		sleep 1
+		
+		let i++ 
+	done
+
 done 
 
 cd ..
