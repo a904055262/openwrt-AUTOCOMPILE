@@ -48,7 +48,7 @@ for d in "${!dlAddr[@]}";do
 	echo "-下载大佬打过补丁的: $d"
 	rm -rf $d
 	
-	for i in {1..5};do
+	for i in {1..100};do
 		echo $i
 		
 		if svn export "${dlAddr[$d]}" $d >/dev/null;then
@@ -56,7 +56,7 @@ for d in "${!dlAddr[@]}";do
 			break
 		fi
 		
-		if (( i == 5));then 
+		if (( i == 100));then 
 			echo "下载$d失败，脚本退出，请重新运行脚本，尝试重新下载"
 			exit 1
 		fi
