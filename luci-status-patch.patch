@@ -1,9 +1,9 @@
 diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci
---- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-08-06 14:05:35.670866348 +0000
-+++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-08-06 14:04:10.658027562 +0000
-@@ -538,7 +538,92 @@
- 		call: function() {
- 			return { result: process_list() };
+--- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-10-09 05:43:05.718832885 +0000
++++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-10-09 05:43:42.860118686 +0000
+@@ -581,7 +581,92 @@
+ 
+ 			return { result: ports };
  		}
 -	}
 +	},
@@ -96,8 +96,8 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
  
  return { luci: methods };
 diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
---- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-08-06 14:05:35.670866348 +0000
-+++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-08-06 14:04:10.654028137 +0000
+--- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-10-09 05:41:46.818677158 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-10-09 05:43:42.856118560 +0000
 @@ -18,6 +18,31 @@
  	method: 'info'
  });
@@ -182,8 +182,8 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  
  		var table = E('table', { 'class': 'table' });
 diff -ur feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
---- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-08-06 14:05:35.670866348 +0000
-+++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-08-06 14:04:10.646029292 +0000
+--- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-10-09 05:41:48.114773040 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-10-09 05:43:42.844118181 +0000
 @@ -3,7 +3,7 @@
  		"description": "Grant access to realtime statistics",
  		"read": {
