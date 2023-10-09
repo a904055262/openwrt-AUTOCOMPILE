@@ -5,7 +5,7 @@ pf=package/cus/
 echo 额外软件包目录：$pf
 
 #脚本所在目录
-shdir=$(cd $(dirname $0); pwd)
+shdir=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 echo "脚本所在目录："$shdir
 
 cd $shdir

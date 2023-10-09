@@ -61,7 +61,7 @@ jobs:
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
                 
-            - name: 自定义修改
+            - name: 添加自定义软件包
               run: |
                 mv addCusPackage-22.sh openwrt/
                 cd openwrt

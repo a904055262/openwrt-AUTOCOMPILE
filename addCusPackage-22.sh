@@ -1,45 +1,74 @@
 #!/usr/bin/env bash
-sdir=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+sdir=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 cd "$sdir"
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot package/cus/luci-app-autoreboot
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-vsftpd package/cus/luci-app-vsftpd
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpufreq package/cus/luci-app-cpufreq
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/cus/luci-app-openclash
+download() {
+	echo 命令: "$@"
+	
+	local i 
+	for i in {1..3};do
+		echo $i
+		
+		if "$@" >/dev/null ;then
+			echo -成功
+			break
+		fi
+		
+		if ((i == 3));then
+			echo -失败
+			exit 1
+		fi
+		
+		sleep 1
+		let i++
+	done
+	
+}
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-gowebdav package/cus/luci-app-gowebdav 
-svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/gowebdav package/cus/gowebdav
+basedir=package/cus
+mkdir -p $basedir
+
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot $basedir/luci-app-autoreboot
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-vsftpd $basedir/luci-app-vsftpd
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpufreq $basedir/luci-app-cpufreq
+download svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash $basedir/luci-app-openclash
+
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-gowebdav $basedir/luci-app-gowebdav 
+download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/gowebdav $basedir/gowebdav
 ln -sf ../feeds/packages/lang package/lang
 
-#svn co https://github.com/brvphoenix/luci-app-wrtbwmon/trunk/luci-app-wrtbwmon package/cus/luci-app-wrtbwmon
-#svn co https://github.com/brvphoenix/wrtbwmon/branches/new/wrtbwmon package/cus/wrtbwmon
+#download svn co https://github.com/brvphoenix/luci-app-wrtbwmon/trunk/luci-app-wrtbwmon $basedir/luci-app-wrtbwmon
+#download svn co https://github.com/brvphoenix/wrtbwmon/branches/new/wrtbwmon $basedir/wrtbwmon
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-uugamebooster package/cus/luci-app-uugamebooster
-svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/uugamebooster package/cus/uugamebooster 
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-uugamebooster $basedir/luci-app-uugamebooster
+download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/uugamebooster $basedir/uugamebooster 
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-timewol package/cus/luci-app-timewol
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-timewol $basedir/luci-app-timewol
 
-git clone --depth=1 https://github.com/tty228/luci-app-wechatpush package/cus/luci-app-wechatpush 
-git clone -b js --depth=1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/cus/luci-app-unblockneteasemusic
-git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata package/cus/luci-app-netdata
+download git clone --depth=1 https://github.com/tty228/luci-app-wechatpush $basedir/luci-app-wechatpush 
+download git clone -b js --depth=1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
+download git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata $basedir/luci-app-netdata
 
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-usb-printer package/cus/luci-app-usb-printer
-#svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/p910nd package/cus/p910nd
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-usb-printer $basedir/luci-app-usb-printer
+#download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/p910nd $basedir/p910nd
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-socat package/cus/luci-app-socat
-#svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/socat package/cus/socat
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-socat $basedir/luci-app-socat
+#download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/socat $basedir/socat
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-msd_lite package/cus/luci-app-msd_lite
-svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/msd_lite package/cus/msd_lite
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-msd_lite $basedir/luci-app-msd_lite
+download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/msd_lite $basedir/msd_lite
 
-svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpulimit package/cus/luci-app-cpulimit 
-svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/utils/cpulimit package/cus/cpulimit
+download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpulimit $basedir/luci-app-cpulimit 
+download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/utils/cpulimit $basedir/cpulimit
 
 find package -type l -name 'miniupnpd'  -delete 
 find package -type l -name 'luci-app-upnp'  -delete 
-svn co https://github.com/jjm2473/packages/branches/istoreos-23.05/net/miniupnpd package/cus/miniupnpd
-svn co https://github.com/jjm2473/luci/branches/istoreos-23.05/applications/luci-app-upnp package/cus/luci-app-upnp
+download svn co https://github.com/jjm2473/packages/branches/istoreos-23.05/net/miniupnpd $basedir/miniupnpd
+download svn co https://github.com/jjm2473/luci/branches/istoreos-23.05/applications/luci-app-upnp $basedir/luci-app-upnp
 
 ln -sf ../feeds/luci/luci.mk package/luci.mk
+
 rm -rf tmp
+
+
