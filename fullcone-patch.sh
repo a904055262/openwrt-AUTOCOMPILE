@@ -5,9 +5,20 @@
 # https://github.com/wongsyrone/lede-1/tree/master/package/libs/libnftnl
 # https://github.com/wongsyrone/lede-1/tree/master/package/network/config/firewall4
 # https://github.com/wongsyrone/luci-1/tree/master/applications/luci-app-firewall
-# https://github.com/fullcone-nat-nftables/nft-fullcone.git
+### https://github.com/fullcone-nat-nftables/nft-fullcone.git
 # https://github.com/wongsyrone/lede-1/tree/master/package/external/nft-fullcone
+
+#######补丁#######
+##5.15
 # https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
+# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/982-add-bcm-fullconenat-support.patch
+# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/983-bcm-fullconenat-mod-nft-masq.patch
+##6.1
+# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/952-add-net-conntrack-events-support-multiple-registrant.patch
+# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/982-add-bcm-fullconenat-support.patch
+# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/983-bcm-fullconenat-mod-nft-masq.patch
+
+
 #脚本所在路径
 sdir=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd "$sdir"
@@ -25,7 +36,7 @@ dlAddr=(
 ['libnftnl']='https://github.com/wongsyrone/lede-1/trunk/package/libs/libnftnl'
 ['firewall4']='https://github.com/wongsyrone/lede-1/trunk/package/network/config/firewall4'
 ['luci-app-firewall']='https://github.com/wongsyrone/luci-1/trunk/applications/luci-app-firewall'
-['nft-fullcone']='https://github.com/fullcone-nat-nftables/nft-fullcone.git'
+['nft-fullcone']='https://github.com/wongsyrone/lede-1/trunk/package/external/nft-fullcone'
 )
 
 echo '开始下载其他补丁包'
@@ -34,62 +45,61 @@ mkdir -p fullconepatch
 cd fullconepatch
 
 for d in "${!dlAddr[@]}";do
-
-	if grep -q 'fullcone' <<< $d;then 
-		bin='git clone --depth=1'
-		binU='git pull'
-	else
-		bin='svn co'
-		binU='svn up'
-	fi
-	
-	echo "-
-	下载大佬打过补丁的: $d"
+	echo "-下载大佬打过补丁的: $d"
 	if [ ! -d $d ];then 
-		$bin ${dlAddr[$d]} $d
-		if [ $? -ne 0 ];then 
-			echo '下载$d失败，脚本退出，请重新运行脚本，尝试重新下载'
+		if ! svn co "${dlAddr[$d]}" $d;then 
+			echo "下载$d失败，脚本退出，请重新运行脚本，尝试重新下载"
 			exit 1
 		fi
 	else 
 		echo '发现已经下载好的，尝试更新'
 		cd $d
-		$binU
+		svn up
 		cd - > /dev/null
 	fi
 done 
 
-echo 下载内核补丁
+cd ..
 
-if [ -d ../target/linux/generic/hack-5.15 ];then 
-	echo '--下载5.15'
-	curl -f -L --connect-timeout 10 -m 90 -o ../target/linux/generic/hack-5.15/952-net-conntrack-events-support-multiple-registrant.patch  \
-		https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
-	if [ $? -ne 0 ];then 
-		echo 下载内核补丁失败
-		exit 1
+
+echo 下载内核补丁
+patches=(
+#5.15
+https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
+https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/982-add-bcm-fullconenat-support.patch
+https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/983-bcm-fullconenat-mod-nft-masq.patch
+##6.1
+https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/952-add-net-conntrack-events-support-multiple-registrant.patch
+https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/982-add-bcm-fullconenat-support.patch
+https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/983-bcm-fullconenat-mod-nft-masq.patch
+)
+
+
+for p in "${patches[@]}";do
+	echo 下载: $p
+	
+	patchver=$(sed -nE 's,.+/generic/(hack-[^/]+)/.+,\1,p' <<< $p)
+	
+	[ "$patchver" ] || continue
+	
+	mkdir -p target/linux/generic/$patchver
+	cd target/linux/generic/$patchver
+
+	if curl -sSfL --retry 1 --connect-timeout 5 -m 15 -O $p;then
+		echo -补丁下载成功
+		cd - > /dev/null
 	else
-		echo '--成功'
+		echo -补丁下载失败
+		exit 1
 	fi
 	
-fi
-
-if [ -d ../target/linux/generic/hack-6.1 ];then 
-	echo '--下载6.1'
-	curl -f -L --connect-timeout 10 -m 90 -o ../target/linux/generic/hack-6.1/952-net-conntrack-events-support-multiple-registrant.patch  \
-		https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/952-net-conntrack-events-support-multiple-registrant.patch
-	if [ $? -ne 0 ];then 
-		echo 下载内核补丁失败
-		exit 1
-	else
-		echo '--成功'
-	fi
-fi
+done
 
 
 #exit
 
 echo '开始替换源文件'
+cd fullconepatch
 
 declare -A rPath
 rPath=(
