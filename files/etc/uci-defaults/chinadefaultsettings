@@ -36,6 +36,6 @@ chmod +x /etc/disservices.sh
 
 # 默认源改成aliyun
 
-sed -i.ori 's,://downloads.openwrt.org/releases/,://mirrors.aliyun.com/openwrt/releases/,' /etc/opkg/distfeeds.conf
+sed -i.ori 's,://downloads.openwrt.org/releases/,://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/,' /etc/opkg/distfeeds.conf
 
 exit 0
