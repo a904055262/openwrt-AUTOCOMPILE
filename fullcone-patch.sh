@@ -35,7 +35,7 @@ dlAddr=(
 ['nftables']='https://github.com/wongsyrone/lede-1/trunk/package/network/utils/nftables'
 ['libnftnl']='https://github.com/wongsyrone/lede-1/trunk/package/libs/libnftnl'
 ['firewall4']='https://github.com/wongsyrone/lede-1/trunk/package/network/config/firewall4'
-['luci-app-firewall']='https://github.com/wongsyrone/luci-1/trunk/applications/luci-app-firewall'
+#['luci-app-firewall']='https://github.com/wongsyrone/luci-1/trunk/applications/luci-app-firewall'
 ['nft-fullcone']='https://github.com/wongsyrone/lede-1/trunk/package/external/nft-fullcone'
 )
 
@@ -69,6 +69,59 @@ for d in "${!dlAddr[@]}";do
 done 
 
 cd ..
+
+# 给luci-app-firewall 打补丁
+echo 开始给 luci-app-firewall 打补丁
+
+zonejs=feeds/luci/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/zones.js
+if [ ! -f $zonejs ];then
+	echo 找不到zonejs
+	exit 1
+fi
+
+cp $zonejs $zonejs.bak 
+
+tmf=$(mktemp)
+cat <<-'EOF' > $tmf
+	o = s.option(form.Flag, 'fullcone', _('Full-cone NAT'));
+	o = s.option(form.Flag, 'brcmfullcone', _('broadcom Full-cone'));
+EOF
+
+#cat $tmf
+
+linenum=$(sed -n '/drop_invalid/{
+		=;q
+	}' $zonejs)
+if [ ! "$linenum" ];then
+	echo 找不到修改点
+	exit 1
+fi
+
+sed -i "$linenum r $tmf
+	" $zonejs
+
+cat <<-'EOF' > $tmf
+	o = s.taboption('general', form.Flag, 'fullcone4', _('IPv4 Full-cone NAT'));
+	o.modalonly = true;
+	o = s.taboption('general', form.Flag, 'fullcone6', _('IPv6 Full-cone NAT'));
+	o.modalonly = true;
+EOF
+
+linenum=$(sed -n '/MSS clamping/{
+		=;q
+	}' $zonejs)
+
+if [ ! "$linenum" ];then
+	echo 找不到修改点
+	exit 1
+fi
+
+let linenum--
+
+sed -i "$linenum r $tmf
+	" $zonejs
+
+echo luci-app-firewall 打补丁-成功
 
 
 echo 下载内核补丁
@@ -119,7 +172,7 @@ rPath=(
 ['luci-app-firewall']='../feeds/luci/applications/'
 )
 
-for d in "${!rPath[@]}";do
+for d in $(ls);do
 	echo "替换 $d"
 	rm -rf "${rPath[$d]}$d"
 	cp -rf $d "${rPath[$d]}"
