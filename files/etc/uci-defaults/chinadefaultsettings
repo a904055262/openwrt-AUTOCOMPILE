@@ -34,8 +34,8 @@ fi
 
 chmod +x /etc/disservices.sh
 
-# 默认源改成北大，北大有snapshot源
+# 腾讯源
 
-sed -i.ori 's,://downloads.openwrt.org/,://mirrors.pku.edu.cn/openwrt/,' /etc/opkg/distfeeds.conf
+sed -i.ori 's,://downloads.openwrt.org/,://mirrors.cloud.tencent.com/openwrt/,' /etc/opkg/distfeeds.conf
 
 exit 0
