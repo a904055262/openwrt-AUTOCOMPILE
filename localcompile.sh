@@ -48,7 +48,7 @@ cp -vf ../fullcone-patch.sh ./
 chmod +x fullcone-patch.sh
 ./fullcone-patch.sh
 
-cp -vf ../x86.23.05.config ../arm.23.05.config ../cprootfstobeikeyun.sh ./
+cp -vf ../x86.23.05.config ../arm.23.05.config ../cprootfstobeikeyun.sh ../sh/getdiff.sh ./
 chmod +x *.sh
 
 echo OK

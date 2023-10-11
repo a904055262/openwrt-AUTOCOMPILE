@@ -147,7 +147,7 @@ for p in "${patches[@]}";do
 	mkdir -p target/linux/generic/$patchver
 	cd target/linux/generic/$patchver
 
-	if curl -sSfL --retry 1 --connect-timeout 5 -m 15 -O $p;then
+	if curl -sSfL --retry 3 --connect-timeout 5 -m 15 -O $p;then
 		echo -补丁下载成功
 		cd - > /dev/null
 	else
