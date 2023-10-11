@@ -16,8 +16,9 @@ else
 	)
 fi
 
-
+sudo mkdir -p /opt/kernel
 sudo cp -vrf beikeyun-kernel/* /opt/kernel/
+
 sudo cp -vrf beikeyun/* /opt/openwrt_packit/
 
 echo OK
