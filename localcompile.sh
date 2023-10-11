@@ -48,6 +48,10 @@ cp -vf ../fullcone-patch.sh ./
 chmod +x fullcone-patch.sh
 ./fullcone-patch.sh
 
+
+echo chinadefault设置
+cp -vrf ../files ./files
+
 cp -vf ../x86.23.05.config ../arm.23.05.config ../cprootfstobeikeyun.sh ../sh/getdiff.sh ./
 chmod +x *.sh
 
