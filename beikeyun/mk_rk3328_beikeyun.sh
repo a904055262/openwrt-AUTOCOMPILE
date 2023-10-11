@@ -49,7 +49,7 @@ BOOT_SCR="${PWD}/files/boot.scr"
 
 #TTYD="${PWD}/files/ttyd"
 #FLIPPY="${PWD}/files/scripts_deprecated/flippy_cn"
-BANNER="${PWD}/files/banner"
+#BANNER="${PWD}/files/banner"
 
 # 20200314 add
 FMW_HOME="${PWD}/files/firmware"
@@ -66,7 +66,7 @@ BAL_ETH_IRQ="${PWD}/files/balethirq.pl"
 #SYSFIXTIME_PATCH="${PWD}/files/sysfixtime.patch"
 
 # 20201128 add
-SSL_CNF_PATCH="${PWD}/files/openssl_engine.patch"
+#SSL_CNF_PATCH="${PWD}/files/openssl_engine.patch"
 
 # 20201212 add
 BAL_CONFIG="${PWD}/files/rk3328/balance_irq"
@@ -74,7 +74,7 @@ BAL_CONFIG="${PWD}/files/rk3328/balance_irq"
 # 20210307 add
 SS_LIB="${PWD}/files/ss-glibc/lib-glibc.tar.xz"
 SS_BIN="${PWD}/files/ss-glibc/armv8a_crypto/ss-bin-glibc.tar.xz"
-JQ="${PWD}/files/jq"
+#JQ="${PWD}/files/jq"
 
 # 20210330 add
 #DOCKERD_PATCH="${PWD}/files/dockerd.patch"
@@ -89,7 +89,7 @@ BOOTLOADER_IMG="${PWD}/files/rk3328/btld-rk3328.bin"
 #DOCKER_README="${PWD}/files/DockerReadme.pdf"
 
 # 20210704 add
-SYSINFO_SCRIPT="${PWD}/files/30-sysinfo.sh"
+#SYSINFO_SCRIPT="${PWD}/files/30-sysinfo.sh"
 FORCE_REBOOT="${PWD}/files/rk3328/reboot"
 
 # 20210923 add
@@ -104,7 +104,7 @@ P7ZIP="${PWD}/files/7z"
 SSH_CIPHERS="aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr,chacha20-poly1305@openssh.com"
 SSHD_CIPHERS="aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr"
 # 20221001 add
-MODULES_HOME="${PWD}/files/rk3328/modules.d"
+#MODULES_HOME="${PWD}/files/rk3328/modules.d"
 ####################################################################
 
 check_depends
@@ -149,7 +149,7 @@ cd $TGT_ROOT
 copy_supplement_files
 extract_glibc_programs
 #adjust_docker_config
-adjust_openssl_config
+#adjust_openssl_config
 #adjust_qbittorrent_config
 adjust_getty_config
 #adjust_samba_config
@@ -159,17 +159,18 @@ adjust_getty_config
 #use_xrayplug_replace_v2rayplug
 create_fstab_config
 #adjust_turboacc_config
-adjust_ntfs_config
+#adjust_ntfs_config
 #adjust_mosdns_config
 #patch_admin_status_index_html
 adjust_kernel_env
 copy_uboot_to_fs
-write_release_info
-write_banner
+#write_release_info
+#write_banner
 config_first_run
 create_snapshot "etc-000"
 write_uboot_to_disk
 clean_work_env
+
 mv ${TGT_IMG} ${OUTPUT_DIR} && sync
 echo "压缩镜像"
 cd ${OUTPUT_DIR}
