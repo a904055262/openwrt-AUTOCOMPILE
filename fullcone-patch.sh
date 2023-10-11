@@ -70,59 +70,68 @@ done
 
 cd ..
 
-# 给luci-app-firewall 打补丁
-echo 开始给 luci-app-firewall 打补丁
+patchlucifirewall(){
+	# 给luci-app-firewall 打补丁
+	echo 开始给 luci-app-firewall 打补丁
 
-zonejs=feeds/luci/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/zones.js
-if [ ! -f $zonejs ];then
-	echo 找不到zonejs
-	exit 1
-fi
+	local zonejs=feeds/luci/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/zones.js
+	if [ ! -f $zonejs ];then
+		echo 找不到zonejs
+		exit 1
+	fi
 
-cp $zonejs $zonejs.bak 
+	if grep -q 'Full-cone' $zonejs;then
+		echo 已经打过了
+		return 0
+	fi
 
-tmf=$(mktemp)
-cat <<-'EOF' > $tmf
-	o = s.option(form.Flag, 'fullcone', _('Full-cone NAT'));
-	o = s.option(form.Flag, 'brcmfullcone', _('broadcom Full-cone'));
-EOF
+	cp $zonejs $zonejs.bak 
 
-#cat $tmf
+	local tmf=$(mktemp)
+	cat <<-'EOF' > $tmf
+		o = s.option(form.Flag, 'fullcone', _('Full-cone NAT'));
+		o = s.option(form.Flag, 'brcmfullcone', _('broadcom Full-cone'));
+	EOF
 
-linenum=$(sed -n '/drop_invalid/{
-		=;q
-	}' $zonejs)
-if [ ! "$linenum" ];then
-	echo 找不到修改点
-	exit 1
-fi
+	#cat $tmf
 
-sed -i "$linenum r $tmf
-	" $zonejs
+	local linenum=$(sed -n '/drop_invalid/{
+			=;q
+		}' $zonejs)
+	if [ ! "$linenum" ];then
+		echo 找不到修改点
+		exit 1
+	fi
 
-cat <<-'EOF' > $tmf
-	o = s.taboption('general', form.Flag, 'fullcone4', _('IPv4 Full-cone NAT'));
-	o.modalonly = true;
-	o = s.taboption('general', form.Flag, 'fullcone6', _('IPv6 Full-cone NAT'));
-	o.modalonly = true;
-EOF
+	sed -i "$linenum r $tmf
+		" $zonejs
 
-linenum=$(sed -n '/MSS clamping/{
-		=;q
-	}' $zonejs)
+	cat <<-'EOF' > $tmf
+		o = s.taboption('general', form.Flag, 'fullcone4', _('IPv4 Full-cone NAT'));
+		o.modalonly = true;
+		o = s.taboption('general', form.Flag, 'fullcone6', _('IPv6 Full-cone NAT'));
+		o.modalonly = true;
+	EOF
 
-if [ ! "$linenum" ];then
-	echo 找不到修改点
-	exit 1
-fi
+	linenum=$(sed -n '/MSS clamping/{
+			=;q
+		}' $zonejs)
 
-let linenum--
+	if [ ! "$linenum" ];then
+		echo 找不到修改点
+		exit 1
+	fi
 
-sed -i "$linenum r $tmf
-	" $zonejs
+	let linenum--
 
-echo luci-app-firewall 打补丁-成功
+	sed -i "$linenum r $tmf
+		" $zonejs
 
+	echo luci-app-firewall 打补丁-成功
+	
+}
+
+patchlucifirewall
 
 echo 下载内核补丁
 patches=(
