@@ -50,7 +50,11 @@ chmod +x fullcone-patch.sh
 
 
 echo chinadefault设置
-cp -vrf ../files ./files
+# cp 复制整个文件夹的时候，
+# 当目标文件夹存在的时候，  会把源文件夹复制到目标文件夹下
+# 当目标文件夹不存在的时候，择把源文件夹里面所有东西复制到目标文件夹下
+
+cp -vrf ../files .
 
 cp -vf ../x86.23.05.config ../arm.23.05.config ../cprootfstobeikeyun.sh ../sh/getdiff.sh ./
 chmod +x *.sh
