@@ -16,7 +16,9 @@ uci -q batch << 'EOF'
 	
 	commit firewall
 
+	set network.lan.ipaddr='192.168.2.1'
 	
+	commit network
 EOF
 
 chmod +x /etc/coremark.sh
@@ -37,5 +39,8 @@ chmod +x /etc/disservices.sh
 # 腾讯源
 
 sed -i.ori 's,://downloads.openwrt.org/,://mirrors.cloud.tencent.com/openwrt/,' /etc/opkg/distfeeds.conf
+
+# 默认密码改成password
+echo -e 'password\npassword' | passwd root 
 
 exit 0
