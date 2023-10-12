@@ -3,22 +3,24 @@
 uci -q batch << 'EOF'
 	set system.@system[0].timezone='CST-8'
 	set system.@system[0].zonename='Asia/Shanghai'
-	
 	delete system.ntp.server
 	add_list system.ntp.server='cn.pool.ntp.org'
 	add_list system.ntp.server='ntp.ntsc.ac.cn'
 	add_list system.ntp.server='time1.cloud.tencent.com'
 	add_list system.ntp.server='ntp.aliyun.com'
-	
 	commit system
 	
 	delete firewall.@zone[1].fullcone6
-	
 	commit firewall
 
 	set network.lan.ipaddr='192.168.2.1'
-	
 	commit network
+	
+	set luci.diag.dns='taobao.com'
+	set luci.diag.ping='taobao.com'
+	set luci.diag.route='taobao.com'
+	commit luci
+	
 EOF
 
 chmod +x /etc/coremark.sh
