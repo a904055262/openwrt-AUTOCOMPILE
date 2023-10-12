@@ -12,7 +12,7 @@ cd "$sdir"
 
 
 # base system > firwall
-# 
+# network > firewall > iptables-mod-fullconenat
 # luci > applications > luci-app-firewall
 
 declare -A dlAddr
@@ -68,8 +68,8 @@ rPath=(
 
 for d in $(ls);do
 	echo "替换 $d"
-	rm -rvf "${rPath[$d]}$d"
-	cp -rvf $d "${rPath[$d]}"
+	rm -rf "${rPath[$d]}$d"
+	cp -rf $d "${rPath[$d]}"
 done
 
 rm -rf ../tmp
