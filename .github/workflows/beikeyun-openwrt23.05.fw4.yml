@@ -1,4 +1,4 @@
-name: 编译beikeyun-openwrt23.05.yml
+name: 编译beikeyun-openwrt23.05.fw4.yml
 on:
     schedule:
       - cron: 0 0 */7 * * 
@@ -73,13 +73,6 @@ jobs:
                 chmod +x patch-luci-status.sh
                 ./patch-luci-status.sh
                 
-            - name: fullcone补丁
-              run: |
-                mv fullcone-patch.sh openwrt/
-                cd openwrt
-                chmod +x fullcone-patch.sh
-                ./fullcone-patch.sh
-                
             - name: chinadefault设置
               run: |
                 mv files openwrt/
@@ -122,7 +115,7 @@ jobs:
             - name: 上传固件
               uses: actions/upload-artifact@v3.1.1
               with:
-                name: beikeyun-${{steps.kversion.outputs.kversion}}-${{steps.filename.outputs.filename}}
+                name: beikeyun.fw4-${{steps.kversion.outputs.kversion}}-${{steps.filename.outputs.filename}}
                 path: |
                     /opt/openwrt_packit/output/*.gz
                     
