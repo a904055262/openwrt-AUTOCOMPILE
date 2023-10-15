@@ -1,6 +1,6 @@
 name: 编译beikeyun-openwrt23.05.yml
 on:
-    schedule:
+    #schedule:
       #- cron: 0 0 */7 * * 
     workflow_dispatch:
 
