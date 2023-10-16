@@ -10,6 +10,7 @@ uci -q batch << 'EOF'
 	add_list system.ntp.server='ntp.aliyun.com'
 	commit system
 	
+	delete firewall.@defaults[0].fullcone
 	delete firewall.@zone[1].fullcone6
 	commit firewall
 
