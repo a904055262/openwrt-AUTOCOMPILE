@@ -1,6 +1,7 @@
 #!/bin/sh
 
 uci -q batch << 'EOF'
+	# 时区改成中国
 	set system.@system[0].timezone='CST-8'
 	set system.@system[0].zonename='Asia/Shanghai'
 	delete system.ntp.server
@@ -10,40 +11,50 @@ uci -q batch << 'EOF'
 	add_list system.ntp.server='ntp.aliyun.com'
 	commit system
 	
+	# 去掉v6fullcone ，关掉fullcone总开关
 	delete firewall.@defaults[0].fullcone
 	delete firewall.@zone[1].fullcone6
 	commit firewall
 
+	# lan默认ip 
 	set network.lan.ipaddr='192.168.2.1'
 	commit network
 	
+	# 网络诊断的3个默认ip
 	set luci.diag.dns='taobao.com'
 	set luci.diag.ping='taobao.com'
 	set luci.diag.route='taobao.com'
 	commit luci
 	
+	# dhcpv6的默认租期改为5分钟
+	set dhcp.lan.preferred_lifetime='5m'
+	commit dhcp
 EOF
 
+# coremark
 chmod +x /etc/coremark.sh
 echo '0 4 * * * /etc/coremark.sh firstbenchmark' >> /etc/crontabs/root
 
+# 禁用dnsmasq log
 if [ -f /etc/dnsmasq.conf ];then
 	sed -i -E '/^log-facility=/d' /etc/dnsmasq.conf
 	echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
 fi
 
-
+# root shell默认改bash
 if [ -x /bin/bash ];then
 	sed -E -i '/^root/{s#:/bin/.*#:/bin/bash#}' /etc/passwd
 fi
 
+# 快速禁用服务的脚本
 chmod +x /etc/disservices.sh
 
 # 腾讯源
-
 sed -i.ori 's,://downloads.openwrt.org/,://mirrors.cloud.tencent.com/openwrt/,' /etc/opkg/distfeeds.conf
 
 # 默认密码改成password
 echo -e 'password\npassword' | passwd root 
 
 exit 0
+
+
