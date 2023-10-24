@@ -55,6 +55,11 @@ sed -i.ori 's,://downloads.openwrt.org/,://mirrors.cloud.tencent.com/openwrt/,' 
 # 默认密码改成password
 echo -e 'password\npassword' | passwd root 
 
+# openssh开启root登录
+if [ -f /etc/ssh/sshd_config ];then
+	sed -i '/^#PermitRootLogin /c\PermitRootLogin yes' /etc/ssh/sshd_config
+fi
+
 exit 0
 
 
