@@ -17,7 +17,8 @@ socat
 timewol
 udpxy
 usb_printer
-uugamebooster"
+uugamebooster
+swanctl"
 
 for s in $services; do 
 	echo "$s"
