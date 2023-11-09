@@ -28,6 +28,8 @@ download() {
 basedir=package/cus
 mkdir -p $basedir
 
+download git clone --depth=1 https://github.com/a904055262/luci-app-ipv6clientfilter $basedir/luci-app-ipv6clientfilter
+
 download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot $basedir/luci-app-autoreboot
 download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-vsftpd $basedir/luci-app-vsftpd
 download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpufreq $basedir/luci-app-cpufreq
