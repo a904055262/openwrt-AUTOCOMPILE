@@ -90,7 +90,11 @@ patchlucifirewall(){
 	local tmf=$(mktemp)
 	cat <<-'EOF' > $tmf
 		o = s.option(form.Flag, 'fullcone', _('Full-cone NAT'));
-		o = s.option(form.Flag, 'brcmfullcone', _('broadcom Full-cone'));
+		o.rmempty = false;
+		o.default = '0';
+        o = s.option(form.Flag, 'brcmfullcone', _('broadcom Full-cone'));
+		o.optional = true;
+		o.depends('fullcone','1');
 	EOF
 
 	#cat $tmf
