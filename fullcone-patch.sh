@@ -23,6 +23,76 @@
 sdir=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 cd "$sdir"
 
+# download -b branch -d tdir repo  dir1 dir2 .. dirN
+download(){
+	#set -x
+	OPTIND=1
+	# branch 获取
+	local opt branch tdir
+	while getopts 'd:b:' opt;do
+		case $opt in
+			b)
+				branch=$OPTARG
+			;;
+			d)
+				tdir=$OPTARG
+			;;
+			
+		esac
+	done
+	
+	[ "$branch" ] && {
+		branch=" -b $branch "
+	}
+	
+	if [ ! "$tdir" ];then 
+		tdir=$basedir
+		if [ ! "$tdir" ];then
+			tdir=dldir
+		fi
+	fi
+	
+	
+	if [ ! -d "$tdir" ];then
+		mkdir -p "$tdir"
+	fi
+	
+	shift $(($OPTIND - 1))
+	OPTIND=1
+
+
+	# 下载指定文件夹
+	local repo=$1 
+	shift 1
+	#set +x
+	
+
+	local tmpdir=$(mktemp -d)
+	
+	while ! git clone --no-checkout $branch --depth 1 --filter tree:0  "$repo" "$tmpdir";do
+		echo retry clone
+		sleep 1
+	done
+	
+	(
+		cd "$tmpdir"
+		git sparse-checkout set  "$@"
+		while ! git checkout ;do
+			echo retry checkout
+			sleep 1
+		done
+	)
+	
+	# 复制到目标文件夹
+	local dir
+	for dir in "$@";do
+		echo "$dir"
+		rm -rf "$tdir/$(basename "$dir")"
+		mv "$tmpdir/$dir" "$tdir"
+	done
+	
+}
+
 
 # network > firewall > nftables
 # libraries > libnftnl
@@ -30,45 +100,17 @@ cd "$sdir"
 # kenerl modules > netfilter extensions > kmod-nft-fullcone
 # luci > applications > luci-app-firewall
 
-declare -A dlAddr
-dlAddr=(
-['nftables']='https://github.com/wongsyrone/lede-1/trunk/package/network/utils/nftables'
-['libnftnl']='https://github.com/wongsyrone/lede-1/trunk/package/libs/libnftnl'
-['firewall4']='https://github.com/wongsyrone/lede-1/trunk/package/network/config/firewall4'
-#['luci-app-firewall']='https://github.com/wongsyrone/luci-1/trunk/applications/luci-app-firewall'
-['nft-fullcone']='https://github.com/wongsyrone/lede-1/trunk/package/external/nft-fullcone'
-)
 
 echo '开始下载其他补丁包'
 
 mkdir -p fullconepatch
-cd fullconepatch
 
-for d in "${!dlAddr[@]}";do
-	echo "-下载大佬打过补丁的: $d"
-	rm -rf $d
-	
-	for i in {1..100};do
-		echo $i
-		
-		if svn export "${dlAddr[$d]}" $d >/dev/null;then
-			echo -成功
-			break
-		fi
-		
-		if (( i == 100));then 
-			echo "下载$d失败，脚本退出，请重新运行脚本，尝试重新下载"
-			exit 1
-		fi
-		
-		sleep 1
-		
-		let i++ 
-	done
+download -d fullconepatch https://github.com/wongsyrone/lede-1/ \
+	package/network/utils/nftables \
+	package/libs/libnftnl \
+	package/network/config/firewall4 \
+	package/external/nft-fullcone 
 
-done 
-
-cd ..
 
 patchlucifirewall(){
 	# 给luci-app-firewall 打补丁
@@ -182,10 +224,9 @@ rPath=(
 ['libnftnl']='../package/libs/'
 ['firewall4']='../package/network/config/'
 ['nft-fullcone']='../package/'
-['luci-app-firewall']='../feeds/luci/applications/'
 )
 
-for d in $(ls);do
+for d in *;do
 	echo "替换 $d"
 	rm -rf "${rPath[$d]}$d"
 	cp -rf $d "${rPath[$d]}"

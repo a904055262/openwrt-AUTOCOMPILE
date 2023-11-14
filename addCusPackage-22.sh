@@ -2,74 +2,136 @@
 sdir=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 cd "$sdir"
 
-download() {
-	echo 命令: "$@"
+basedir=package/cus
+mkdir -p $basedir
+
+# download -b branch -d tdir repo  dir1 dir2 .. dirN
+download(){
+	#set -x
+	OPTIND=1
+	# branch 获取
+	local opt branch tdir
+	while getopts 'd:b:' opt;do
+		case $opt in
+			b)
+				branch=$OPTARG
+			;;
+			d)
+				tdir=$OPTARG
+			;;
+			
+		esac
+	done
 	
-	local i 
-	for i in {1..3};do
-		echo $i
-		
-		if "$@" >/dev/null ;then
-			echo -成功
-			break
+	[ "$branch" ] && {
+		branch=" -b $branch "
+	}
+	
+	if [ ! "$tdir" ];then 
+		tdir=$basedir
+		if [ ! "$tdir" ];then
+			tdir=dldir
 		fi
-		
-		if ((i == 3));then
-			echo -失败
-			exit 1
-		fi
-		
+	fi
+	
+	
+	if [ ! -d "$tdir" ];then
+		mkdir -p "$tdir"
+	fi
+	
+	shift $(($OPTIND - 1))
+	OPTIND=1
+
+
+	# 下载指定文件夹
+	local repo=$1 
+	shift 1
+	#set +x
+	
+
+	local tmpdir=$(mktemp -d)
+	
+	while ! git clone --no-checkout $branch --depth 1 --filter tree:0  "$repo" "$tmpdir";do
+		echo retry clone
 		sleep 1
-		let i++
+	done
+	
+	(
+		cd "$tmpdir"
+		git sparse-checkout set  "$@"
+		while ! git checkout ;do
+			echo retry checkout
+			sleep 1
+		done
+	)
+	
+	# 复制到目标文件夹
+	local dir
+	for dir in "$@";do
+		echo "$dir"
+		rm -rf "$tdir/$(basename "$dir")"
+		mv "$tmpdir/$dir" "$tdir"
 	done
 	
 }
 
-basedir=package/cus
-mkdir -p $basedir
-
-download git clone --depth=1 https://github.com/a904055262/luci-app-ipv6clientfilter $basedir/luci-app-ipv6clientfilter
-
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-autoreboot $basedir/luci-app-autoreboot
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-vsftpd $basedir/luci-app-vsftpd
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpufreq $basedir/luci-app-cpufreq
-download svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash $basedir/luci-app-openclash
-
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-gowebdav $basedir/luci-app-gowebdav 
-download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/gowebdav $basedir/gowebdav
-ln -sf ../feeds/packages/lang package/lang
-
-#download svn co https://github.com/brvphoenix/luci-app-wrtbwmon/trunk/luci-app-wrtbwmon $basedir/luci-app-wrtbwmon
-#download svn co https://github.com/brvphoenix/wrtbwmon/branches/new/wrtbwmon $basedir/wrtbwmon
-
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-uugamebooster $basedir/luci-app-uugamebooster
-download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/uugamebooster $basedir/uugamebooster 
-
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-timewol $basedir/luci-app-timewol
-
-download git clone --depth=1 https://github.com/tty228/luci-app-wechatpush $basedir/luci-app-wechatpush 
-download git clone -b js --depth=1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
-download git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata $basedir/luci-app-netdata
 
 
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-usb-printer $basedir/luci-app-usb-printer
-#download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/p910nd $basedir/p910nd
+gitclone='git clone --depth 1 --filter tree:0 '
 
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-socat $basedir/luci-app-socat
-#download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/socat $basedir/socat
+echo -下载luci-app-ipv6clientfilter
+$gitclone https://github.com/a904055262/luci-app-ipv6clientfilter $basedir/luci-app-ipv6clientfilter
+echo -下载luci-app-wechatpush
+$gitclone https://github.com/tty228/luci-app-wechatpush $basedir/luci-app-wechatpush
+echo -下载luci-app-unblockneteasemusic
+$gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
 
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-msd_lite $basedir/luci-app-msd_lite
-download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/net/msd_lite $basedir/msd_lite
 
-download svn co https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-cpulimit $basedir/luci-app-cpulimit 
-download svn co https://github.com/immortalwrt/packages/branches/openwrt-23.05/utils/cpulimit $basedir/cpulimit
+echo -下载immortalwrt app
+download -b openwrt-23.05 https://github.com/immortalwrt/luci  \
+	applications/luci-app-cpufreq \
+	applications/luci-app-gowebdav \
+	applications/luci-app-uugamebooster \
+	applications/luci-app-usb-printer \
+	applications/luci-app-socat \
+	applications/luci-app-msd_lite \
+	applications/luci-app-cpulimit
+	
+download -b openwrt-23.05 https://github.com/immortalwrt/packages  \
+	net/gowebdav \
+	net/uugamebooster \
+	net/msd_lite \
+	utils/cpulimit
 
+echo -下载luci-app-openclash
+download -b dev https://github.com/vernesong/OpenClash     luci-app-openclash
+
+echo -下载wrtbwmon luci-app-wrtbwmon
+download -b new https://github.com/brvphoenix/wrtbwmon  wrtbwmon
+download  https://github.com/brvphoenix/luci-app-wrtbwmon  luci-app-wrtbwmon
+
+
+echo -下载istoreos miniupnpd luci-app-upnp
 find package -type l -name 'miniupnpd'  -delete 
 find package -type l -name 'luci-app-upnp'  -delete 
-download svn co https://github.com/jjm2473/packages/branches/istoreos-23.05/net/miniupnpd $basedir/miniupnpd
-download svn co https://github.com/jjm2473/luci/branches/istoreos-23.05/applications/luci-app-upnp $basedir/luci-app-upnp
+
+download -b istoreos-23.05 https://github.com/jjm2473/packages    net/miniupnpd
+download -b istoreos-23.05 https://github.com/jjm2473/luci    applications/luci-app-upnp
+
+# echo -下载passwall2
+# download  https://github.com/xiaorouji/openwrt-passwall2  luci-app-passwall2
+
+# echo -下载passwall2 依赖
+# download https://github.com/xiaorouji/openwrt-passwall-packages  \
+	# tcping brook hysteria naiveproxy \
+	# shadowsocks-rust \
+	# shadowsocksr-libev \
+	# simple-obfs tuic-client v2ray-plugin gn 
+	
+
 
 ln -sf ../feeds/luci/luci.mk package/luci.mk
+ln -sf ../feeds/packages/lang package/lang
 
 rm -rf tmp
 

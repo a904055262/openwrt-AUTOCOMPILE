@@ -10,48 +10,88 @@
 sdir=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 cd "$sdir"
 
+# download -b branch -d tdir repo  dir1 dir2 .. dirN
+download(){
+	#set -x
+	OPTIND=1
+	# branch 获取
+	local opt branch tdir
+	while getopts 'd:b:' opt;do
+		case $opt in
+			b)
+				branch=$OPTARG
+			;;
+			d)
+				tdir=$OPTARG
+			;;
+			
+		esac
+	done
+	
+	[ "$branch" ] && {
+		branch=" -b $branch "
+	}
+	
+	if [ ! "$tdir" ];then 
+		tdir=$basedir
+		if [ ! "$tdir" ];then
+			tdir=dldir
+		fi
+	fi
+	
+	
+	if [ ! -d "$tdir" ];then
+		mkdir -p "$tdir"
+	fi
+	
+	shift $(($OPTIND - 1))
+	OPTIND=1
+
+
+	# 下载指定文件夹
+	local repo=$1 
+	shift 1
+	#set +x
+	
+
+	local tmpdir=$(mktemp -d)
+	
+	while ! git clone --no-checkout $branch --depth 1 --filter tree:0  "$repo" "$tmpdir";do
+		echo retry clone
+		sleep 1
+	done
+	
+	(
+		cd "$tmpdir"
+		git sparse-checkout set  "$@"
+		while ! git checkout ;do
+			echo retry checkout
+			sleep 1
+		done
+	)
+	
+	# 复制到目标文件夹
+	local dir
+	for dir in "$@";do
+		echo "$dir"
+		rm -rf "$tdir/$(basename "$dir")"
+		mv "$tmpdir/$dir" "$tdir"
+	done
+	
+}
+
 
 # base system > firwall
 # network > firewall > iptables-mod-fullconenat
 # luci > applications > luci-app-firewall
 
-declare -A dlAddr
-dlAddr=(
-[firewall]=https://github.com/immortalwrt/immortalwrt/branches/openwrt-23.05/package/network/config/firewall
-#[luci-app-firewall]=https://github.com/immortalwrt/luci/branches/openwrt-23.05/applications/luci-app-firewall
-[fullcone]=https://github.com/immortalwrt/immortalwrt/branches/openwrt-23.05/package/network/utils/fullconenat
-)
-
 echo '开始下载其他补丁包'
 
 mkdir -p fullcone3patch
-cd fullcone3patch
 
-for d in "${!dlAddr[@]}";do
-	echo "-下载大佬打过补丁的: $d"
-	rm -rf $d
-	
-	for i in {1..100};do
-		echo $i
-		
-		if svn export "${dlAddr[$d]}" $d >/dev/null;then
-			echo -成功
-			break
-		fi
-		
-		if (( i == 100));then 
-			echo "下载$d失败，脚本退出，请重新运行脚本，尝试重新下载"
-			exit 1
-		fi
-		
-		sleep 1
-		
-		let i++ 
-	done
-
-done 
-
-cd ..
+download -b openwrt-23.05 -d fullcone3patch https://github.com/immortalwrt/immortalwrt/ \
+	package/network/config/firewall \
+	package/network/utils/fullconenat 
 
 
 patchlucifirewall(){
@@ -104,11 +144,10 @@ cd fullcone3patch
 declare -A rPath
 rPath=(
 [firewall]='../package/network/config/'
-[fullcone]='../package/'
-#[luci-app-firewall]='../feeds/luci/applications/'
+[fullconenat]='../package/'
 )
 
-for d in $(ls);do
+for d in *;do
 	echo "替换 $d"
 	rm -rf "${rPath[$d]}$d"
 	cp -rf $d "${rPath[$d]}"
