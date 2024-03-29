@@ -90,7 +90,7 @@ $gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasem
 echo -下载immortalwrt app
 download -b openwrt-23.05 https://github.com/immortalwrt/luci  \
 	applications/luci-app-cpufreq \
-	applications/luci-app-gowebdav \
+	applications/luci-app-dufs \
 	applications/luci-app-uugamebooster \
 	applications/luci-app-usb-printer \
 	applications/luci-app-socat \
@@ -98,7 +98,7 @@ download -b openwrt-23.05 https://github.com/immortalwrt/luci  \
 	applications/luci-app-cpulimit
 	
 download -b openwrt-23.05 https://github.com/immortalwrt/packages  \
-	net/gowebdav \
+	net/dufs \
 	net/uugamebooster \
 	net/msd_lite \
 	utils/cpulimit
