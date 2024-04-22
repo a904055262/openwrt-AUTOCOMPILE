@@ -49,8 +49,8 @@ fi
 # 快速禁用服务的脚本
 chmod +x /etc/disservices.sh
 
-# 腾讯源
-sed -i.ori 's,://downloads.openwrt.org/,://mirrors.cloud.tencent.com/openwrt/,' /etc/opkg/distfeeds.conf
+# 北大源
+sed -i.ori 's,://downloads.openwrt.org/,://mirrors.pku.edu.cn/openwrt/,' /etc/opkg/distfeeds.conf
 
 # 默认密码改成password
 echo -e 'password\npassword' | passwd root 
