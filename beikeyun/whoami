@@ -1,3 +1,0 @@
-KERNEL_VERSION='6.0.12-flippy-79+'
-OPENWRT_VER="$(TZ=CST-8 date '+%Y.%m.%d')"
-WHOAMI='NLF'
