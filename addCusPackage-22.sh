@@ -87,6 +87,9 @@ echo -下载luci-app-unblockneteasemusic
 $gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
 
 
+download -b openwrt-23.05 https://github.com/immortalwrt/immortalwrt  package/kernel/r8168
+
+
 echo -下载immortalwrt app
 download -b openwrt-23.05 https://github.com/immortalwrt/luci  \
 	applications/luci-app-cpufreq \
@@ -120,6 +123,7 @@ find package -type l -name 'luci-app-upnp'  -delete
 
 download -b istoreos-23.05 https://github.com/jjm2473/packages    net/miniupnpd
 download -b istoreos-23.05 https://github.com/jjm2473/luci    applications/luci-app-upnp
+
 
 # echo -下载passwall2
 # download  https://github.com/xiaorouji/openwrt-passwall2  luci-app-passwall2
