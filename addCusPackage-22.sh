@@ -87,23 +87,24 @@ echo -下载luci-app-unblockneteasemusic
 $gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
 
 
-download -b openwrt-23.05 https://github.com/immortalwrt/immortalwrt  package/kernel/r8168
+
+download  https://github.com/immortalwrt/immortalwrt \
+	package/kernel/r8168 \
+	package/emortal/cpufreq
 
 
 echo -下载immortalwrt app
-download -b openwrt-23.05 https://github.com/immortalwrt/luci  \
+download  https://github.com/immortalwrt/luci  \
 	applications/luci-app-cpufreq \
 	applications/luci-app-uugamebooster \
 	applications/luci-app-usb-printer \
 	applications/luci-app-socat \
 	applications/luci-app-msd_lite \
-	applications/luci-app-cpulimit
-
-download https://github.com/immortalwrt/luci  \
+	applications/luci-app-cpulimit \
 	applications/luci-app-dufs 
 
 
-download -b openwrt-23.05 https://github.com/immortalwrt/packages  \
+download  https://github.com/immortalwrt/packages  \
 	net/dufs \
 	net/uugamebooster \
 	net/msd_lite \
@@ -121,8 +122,8 @@ echo -下载istoreos miniupnpd luci-app-upnp
 find package -type l -name 'miniupnpd'  -delete 
 find package -type l -name 'luci-app-upnp'  -delete 
 
-download -b istoreos-23.05 https://github.com/jjm2473/packages    net/miniupnpd
-download -b istoreos-23.05 https://github.com/jjm2473/luci    applications/luci-app-upnp
+download  https://github.com/jjm2473/packages    net/miniupnpd
+download  https://github.com/jjm2473/luci    applications/luci-app-upnp
 
 
 # echo -下载passwall2
