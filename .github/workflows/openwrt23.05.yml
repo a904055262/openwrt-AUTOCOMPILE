@@ -40,6 +40,7 @@ jobs:
                 sudo apt -y autoremove --purge >/dev/null
                 sudo apt clean >/dev/null
                 
+                dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
                 df -h
             - name: 下载仓库文件到工作目录
               uses: actions/checkout@v3
