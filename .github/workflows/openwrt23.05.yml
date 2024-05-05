@@ -108,13 +108,14 @@ jobs:
             - name: 上传固件
               uses: actions/upload-artifact@v4
               with:
-                name: ${{steps.filename.outputs.filename}}-efi
+                name: ${{steps.filename.outputs.filename}}-squashfs
                 path: |
-                    openwrt/bin/targets/*/*/*combined-efi.img*
+                    openwrt/bin/targets/*/*/*squashfs-combined-efi.img*
                     
             - name: 上传固件
               uses: actions/upload-artifact@v4
               with:
-                name: ${{steps.filename.outputs.filename}}-legacy
+                name: ${{steps.filename.outputs.filename}}-ext4
                 path: |
-                    openwrt/bin/targets/*/*/*combined.img*
+                    openwrt/bin/targets/*/*/*ext4-combined-efi.img*
+                    
