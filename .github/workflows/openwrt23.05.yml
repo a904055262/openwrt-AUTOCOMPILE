@@ -21,7 +21,7 @@ jobs:
                 sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
                 sudo -E apt-mark hold grub-efi-amd64-signed
                 sudo -E apt update >/dev/null
-                sudo -E apt -y purge microsoft-edge*  mono-devel* containerd* azure-cli* temurin* gfortran*  docker* ghc* zulu* llvm* libllvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap* >/dev/null
+                sudo -E apt -y purge microsoft-edge* *azure*  kubectl   podman containernetworking-plugins r-base-core mono-devel*  containerd*  temurin* gfortran*  docker* ghc* zulu* llvm* libllvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap* >/dev/null
                 sudo -E systemctl daemon-reload 
                 sudo -E apt -y autoremove --purge >/dev/null
                 sudo -E apt clean >/dev/null
