@@ -604,13 +604,13 @@ const methods = {
 	
 	getTempInfo: {
 		call: function() {
-			let fd = popen('cat /sys/class/thermal/thermal_zone0/temp  2>/dev/null');
+			let fd = popen('sensors 2>/dev/null | grep -i -A10 \'^coretemp\' | grep -i -m1 \'^package\' | grep -oE  \'[+-][0-9]+\' | head -n 1 ');
 			if (fd){
 				let tempinfo = fd.read('all');
 				if (tempinfo === ''){
 					tempinfo = '??';
 				} else {
-					tempinfo = tempinfo/1000 + '℃';
+					tempinfo = tempinfo + '℃';
 				}
 				fd.close();
 				return { tempinfo: tempinfo };

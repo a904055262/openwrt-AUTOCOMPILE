@@ -1,6 +1,6 @@
 diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci
---- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-10-09 05:43:05.718832885 +0000
-+++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2023-10-09 05:43:42.860118686 +0000
+--- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 06:58:05.278754027 +0000
++++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 06:59:45.116403792 +0000
 @@ -581,7 +581,92 @@
  
  			return { result: ports };
@@ -29,13 +29,13 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
 +	
 +	getTempInfo: {
 +		call: function() {
-+			let fd = popen('cat /sys/class/thermal/thermal_zone0/temp  2>/dev/null');
++			let fd = popen('sensors 2>/dev/null | grep -i -A10 \'^coretemp\' | grep -i -m1 \'^package\' | grep -oE  \'[+-][0-9]+\' | head -n 1 ');
 +			if (fd){
 +				let tempinfo = fd.read('all');
 +				if (tempinfo === ''){
 +					tempinfo = '??';
 +				} else {
-+					tempinfo = tempinfo/1000 + '℃';
++					tempinfo = tempinfo + '℃';
 +				}
 +				fd.close();
 +				return { tempinfo: tempinfo };
@@ -96,8 +96,8 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
  
  return { luci: methods };
 diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
---- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-10-09 05:41:46.818677158 +0000
-+++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2023-10-09 05:43:42.856118560 +0000
+--- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 06:58:05.282754093 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 06:59:45.112403725 +0000
 @@ -18,6 +18,31 @@
  	method: 'info'
  });
@@ -182,8 +182,8 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  
  		var table = E('table', { 'class': 'table' });
 diff -ur feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
---- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-10-09 05:41:48.114773040 +0000
-+++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2023-10-09 05:43:42.844118181 +0000
+--- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 06:58:05.282754093 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 06:59:45.112403725 +0000
 @@ -3,7 +3,7 @@
  		"description": "Grant access to realtime statistics",
  		"read": {
@@ -193,3 +193,12 @@ diff -ur feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-s
  				"network.rrdns": [ "lookup" ]
  			}
  		}
+@@ -61,7 +61,7 @@
+ 		"description": "Grant access to wireless channel status",
+ 		"read": {
+ 			"ubus": {
+-				"iwinfo": [ "info", "freqlist", "scan" ]
++				"iwinfo": [ "info", "freqlist" ]
+ 			}
+ 		}
+ 	},
