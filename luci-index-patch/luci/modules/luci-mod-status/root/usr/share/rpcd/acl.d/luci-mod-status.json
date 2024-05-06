@@ -3,7 +3,7 @@
 		"description": "Grant access to realtime statistics",
 		"read": {
 			"ubus": {
-				"luci": [ "getConntrackList", "getRealtimeStats" , "getCPUUsage", "getTempInfo", "getCpuFreq", "getOnlineUsers", "getCPUBench" ],
+				"luci": [ "getConntrackList", "getRealtimeStats" , "getCPUUsage", "getTempInfo", "getFanSpeed", "getCpuFreq", "getOnlineUsers", "getCPUBench" ],
 				"network.rrdns": [ "lookup" ]
 			}
 		}

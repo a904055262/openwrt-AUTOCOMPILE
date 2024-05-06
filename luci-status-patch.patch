@@ -1,7 +1,7 @@
 diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci
---- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 06:58:05.278754027 +0000
-+++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 06:59:45.116403792 +0000
-@@ -581,7 +581,92 @@
+--- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 14:00:12.988595207 +0000
++++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 14:00:22.460851679 +0000
+@@ -581,7 +581,111 @@
  
  			return { result: ports };
  		}
@@ -29,14 +29,15 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
 +	
 +	getTempInfo: {
 +		call: function() {
-+			let fd = popen('sensors 2>/dev/null | grep -i -A10 \'^coretemp\' | grep -i -m1 \'^package\' | grep -oE  \'[+-][0-9]+\' | head -n 1 ');
++			//return {tempinfo: '20℃'};
++
++			let fd = popen('command -v sensors >/dev/null && sensors 2>/dev/null | grep -i -A10 \'^coretemp\' | grep -i -m1 \'^package\' | grep -oE  \'[+-][0-9]+\' | head -n 1 ');
++			
 +			if (fd){
 +				let tempinfo = fd.read('all');
-+				if (tempinfo === ''){
-+					tempinfo = '??';
-+				} else {
-+					tempinfo = tempinfo + '℃';
-+				}
++				if (tempinfo !== ''){
++					tempinfo = tempinfo + '℃'
++				};
 +				fd.close();
 +				return { tempinfo: tempinfo };
 +				
@@ -46,7 +47,25 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
 +
 +		}
 +	},
-+	
++
++	getFanSpeed: {
++		call: function() {
++			//return { fanspeed: '1686' };
++
++			let fd = popen('command -v sensors >/dev/null && sensors 2>/dev/null | grep -ioE \':[[:space:]]+[1-9][0-9]* RPM \' | grep -Eo \'[0-9]+\' | awk \'{printf $0 ","}\' | sed -E \'s|,$||\' ');
++			
++			if (fd){
++				let fanspeed = fd.read('all');
++				fd.close();
++				return { fanspeed: fanspeed };
++				
++			} else {
++				return { fanspeed: 'error' };
++			}
++
++		}
++	},
++
 +	getCpuFreq: {
 +		call: function() {
 +			let fd = popen('cat /proc/cpuinfo  | grep -i mhz | grep -Eo \'[0-9.]+\' | awk -F . \'{printf("%.1f ",$1/1000)}\'');
@@ -96,9 +115,9 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
  
  return { luci: methods };
 diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
---- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 06:58:05.282754093 +0000
-+++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 06:59:45.112403725 +0000
-@@ -18,6 +18,31 @@
+--- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 14:00:12.992595314 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 14:00:22.456851568 +0000
+@@ -18,6 +18,36 @@
  	method: 'info'
  });
  
@@ -110,6 +129,11 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
 +var callTempInfo = rpc.declare({
 +	object: 'luci',
 +	method: 'getTempInfo'
++});
++
++var callFanSpeed = rpc.declare({
++	object: 'luci',
++	method: 'getFanSpeed'
 +});
 +
 +var callCpuFreq = rpc.declare({
@@ -130,7 +154,7 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  return baseclass.extend({
  	title: _('System'),
  
-@@ -25,14 +50,24 @@
+@@ -25,14 +55,26 @@
  		return Promise.all([
  			L.resolveDefault(callSystemBoard(), {}),
  			L.resolveDefault(callSystemInfo(), {}),
@@ -141,6 +165,7 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
 +			L.resolveDefault(callCpuFreq(), {}),
 +			L.resolveDefault(callOnlineUsers(), {}),
 +			L.resolveDefault(callCPUBench(), {}),
++			L.resolveDefault(callFanSpeed(), {}),
  		]);
  	},
  
@@ -153,11 +178,12 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
 +			tempinfo    = data[4],
 +			cpufreq     = data[5],
 +			onlineusers = data[6],
-+			cpubench    = data[7];
++			cpubench    = data[7],
++			fanspeed    = data[8];
  
  		luciversion = luciversion.branch + ' ' + luciversion.revision;
  
-@@ -53,18 +88,20 @@
+@@ -53,18 +95,23 @@
  
  		var fields = [
  			_('Hostname'),         boardinfo.hostname,
@@ -176,20 +202,23 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  				systeminfo.load[2] / 65535.0
 -			) : null
 +			) : null,
-+			_('CPU'),    cpuusage.cpuusage + ' | 温度: ' + tempinfo.tempinfo + ' | 频率: ' + cpufreq.cpufreq,
++			_('CPU'),    cpuusage.cpuusage + 
++				( ! /^$|^error$/i.test(tempinfo.tempinfo) ?  ( ' | 温度: ' + tempinfo.tempinfo ) : '' ) + 
++				( ! /^$|^error$/i.test(fanspeed.fanspeed) ?  ( ' | 风扇: ' + fanspeed.fanspeed ) : '' ) + 
++				' | 频率: ' + cpufreq.cpufreq,
 +
  		];
  
  		var table = E('table', { 'class': 'table' });
 diff -ur feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
---- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 06:58:05.282754093 +0000
-+++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 06:59:45.112403725 +0000
+--- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 14:00:12.996595422 +0000
++++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 14:00:22.452851462 +0000
 @@ -3,7 +3,7 @@
  		"description": "Grant access to realtime statistics",
  		"read": {
  			"ubus": {
 -				"luci": [ "getConntrackList", "getRealtimeStats" ],
-+				"luci": [ "getConntrackList", "getRealtimeStats" , "getCPUUsage", "getTempInfo", "getCpuFreq", "getOnlineUsers", "getCPUBench" ],
++				"luci": [ "getConntrackList", "getRealtimeStats" , "getCPUUsage", "getTempInfo", "getFanSpeed", "getCpuFreq", "getOnlineUsers", "getCPUBench" ],
  				"network.rrdns": [ "lookup" ]
  			}
  		}

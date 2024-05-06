@@ -604,14 +604,15 @@ const methods = {
 	
 	getTempInfo: {
 		call: function() {
-			let fd = popen('sensors 2>/dev/null | grep -i -A10 \'^coretemp\' | grep -i -m1 \'^package\' | grep -oE  \'[+-][0-9]+\' | head -n 1 ');
+			//return {tempinfo: '20℃'};
+
+			let fd = popen('command -v sensors >/dev/null && sensors 2>/dev/null | grep -i -A10 \'^coretemp\' | grep -i -m1 \'^package\' | grep -oE  \'[+-][0-9]+\' | head -n 1 ');
+			
 			if (fd){
 				let tempinfo = fd.read('all');
-				if (tempinfo === ''){
-					tempinfo = '??';
-				} else {
-					tempinfo = tempinfo + '℃';
-				}
+				if (tempinfo !== ''){
+					tempinfo = tempinfo + '℃'
+				};
 				fd.close();
 				return { tempinfo: tempinfo };
 				
@@ -621,7 +622,25 @@ const methods = {
 
 		}
 	},
-	
+
+	getFanSpeed: {
+		call: function() {
+			//return { fanspeed: '1686' };
+
+			let fd = popen('command -v sensors >/dev/null && sensors 2>/dev/null | grep -ioE \':[[:space:]]+[1-9][0-9]* RPM \' | grep -Eo \'[0-9]+\' | awk \'{printf $0 ","}\' | sed -E \'s|,$||\' ');
+			
+			if (fd){
+				let fanspeed = fd.read('all');
+				fd.close();
+				return { fanspeed: fanspeed };
+				
+			} else {
+				return { fanspeed: 'error' };
+			}
+
+		}
+	},
+
 	getCpuFreq: {
 		call: function() {
 			let fd = popen('cat /proc/cpuinfo  | grep -i mhz | grep -Eo \'[0-9.]+\' | awk -F . \'{printf("%.1f ",$1/1000)}\'');

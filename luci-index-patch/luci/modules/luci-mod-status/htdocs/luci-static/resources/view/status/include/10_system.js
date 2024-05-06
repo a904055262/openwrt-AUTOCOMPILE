@@ -28,6 +28,11 @@ var callTempInfo = rpc.declare({
 	method: 'getTempInfo'
 });
 
+var callFanSpeed = rpc.declare({
+	object: 'luci',
+	method: 'getFanSpeed'
+});
+
 var callCpuFreq = rpc.declare({
 	object: 'luci',
 	method: 'getCpuFreq'
@@ -56,6 +61,7 @@ return baseclass.extend({
 			L.resolveDefault(callCpuFreq(), {}),
 			L.resolveDefault(callOnlineUsers(), {}),
 			L.resolveDefault(callCPUBench(), {}),
+			L.resolveDefault(callFanSpeed(), {}),
 		]);
 	},
 
@@ -67,7 +73,8 @@ return baseclass.extend({
 			tempinfo    = data[4],
 			cpufreq     = data[5],
 			onlineusers = data[6],
-			cpubench    = data[7];
+			cpubench    = data[7],
+			fanspeed    = data[8];
 
 		luciversion = luciversion.branch + ' ' + luciversion.revision;
 
@@ -100,7 +107,10 @@ return baseclass.extend({
 				systeminfo.load[1] / 65535.0,
 				systeminfo.load[2] / 65535.0
 			) : null,
-			_('CPU'),    cpuusage.cpuusage + ' | 温度: ' + tempinfo.tempinfo + ' | 频率: ' + cpufreq.cpufreq,
+			_('CPU'),    cpuusage.cpuusage + 
+				( ! /^$|^error$/i.test(tempinfo.tempinfo) ?  ( ' | 温度: ' + tempinfo.tempinfo ) : '' ) + 
+				( ! /^$|^error$/i.test(fanspeed.fanspeed) ?  ( ' | 风扇: ' + fanspeed.fanspeed ) : '' ) + 
+				' | 频率: ' + cpufreq.cpufreq,
 
 		];
 
