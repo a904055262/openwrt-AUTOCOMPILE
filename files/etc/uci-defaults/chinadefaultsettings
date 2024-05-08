@@ -44,6 +44,7 @@ fi
 # root shell默认改bash
 if [ -x /bin/bash ];then
 	sed -E -i '/^root/{s#:/bin/.*#:/bin/bash#}' /etc/passwd
+	sed -E -i 's, exec /bin/[^ ]+, exec /bin/bash,' /usr/libexec/login.sh
 fi
 
 # 快速禁用服务的脚本
