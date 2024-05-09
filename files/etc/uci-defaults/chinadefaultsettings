@@ -47,6 +47,11 @@ if [ -x /bin/bash ];then
 	sed -E -i 's, exec /bin/[^ ]+, exec /bin/bash,' /usr/libexec/login.sh
 fi
 
+# r8168驱动比usb驱动早加载
+if [ -f /etc/modules.d/r8168 ];then
+	mv /etc/modules.d/r8168 /etc/modules.d/99-r8168
+fi
+
 # 快速禁用服务的脚本
 chmod +x /etc/disservices.sh
 
