@@ -106,6 +106,7 @@ jobs:
             - name: 开始编译
               run: |
                 #cd openwrt
+                sudo chmod 777 /mnt
                 mv openwrt /mnt
                 cd /mnt/openwrt
                 make -j8 download
