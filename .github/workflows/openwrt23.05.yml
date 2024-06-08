@@ -55,8 +55,10 @@ jobs:
               run: |
                 chmod +x getLatestTag.sh
                 
-                version=$(./getLatestTag.sh | tail -n1)
+                #version=$(./getLatestTag.sh | tail -n1)
+                version="openwrt-23.05"
                 echo "version: $version"
+                
                 date=$(TZ="UTC-8" date '+%Y-%m-%d_%H-%M')
                 echo "date: $date"
                 
@@ -67,8 +69,8 @@ jobs:
             - name: 更新feeds
               run: |
                 cd openwrt
-                cp ../feeds.conf.default feeds.conf.default
-                cat feeds.conf.default
+                #cp ../feeds.conf.default feeds.conf.default
+                #cat feeds.conf.default
                 ./scripts/feeds update -a > /dev/null 2>&1
                 ./scripts/feeds install -a > /dev/null 2>&1
                 ./scripts/feeds install -a
