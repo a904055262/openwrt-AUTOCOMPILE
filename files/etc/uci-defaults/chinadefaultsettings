@@ -26,8 +26,8 @@ uci -q batch << 'EOF'
 	set luci.diag.route='taobao.com'
 	commit luci
 	
-	# dhcpv6的默认租期改为5分钟
-	set dhcp.lan.preferred_lifetime='5m'
+	# dhcpv6的默认租期改为30分钟
+	set dhcp.lan.preferred_lifetime='30m'
 	commit dhcp
 EOF
 
