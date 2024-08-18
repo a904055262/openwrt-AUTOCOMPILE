@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+exec 1>/root/autorestore.log 2>&1
+
 echo wait 20s
 sleep 20
 
