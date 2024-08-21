@@ -89,7 +89,6 @@ $gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasem
 
 
 download  https://github.com/immortalwrt/immortalwrt \
-	package/kernel/r8168 \
 	package/emortal/cpufreq
 
 
