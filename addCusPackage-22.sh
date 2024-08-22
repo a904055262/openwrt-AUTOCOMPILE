@@ -81,23 +81,22 @@ gitclone='git clone --depth 1 --filter tree:0 '
 
 echo -下载luci-app-ipv6clientfilter
 $gitclone https://github.com/a904055262/luci-app-ipv6clientfilter $basedir/luci-app-ipv6clientfilter
+
 echo -下载luci-app-wechatpush
 $gitclone https://github.com/tty228/luci-app-wechatpush $basedir/luci-app-wechatpush
-echo -下载luci-app-unblockneteasemusic
-$gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
+
+# echo -下载luci-app-unblockneteasemusic
+# $gitclone -b js  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git $basedir/luci-app-unblockneteasemusic
 
 
 
-download  https://github.com/immortalwrt/immortalwrt \
-	package/emortal/cpufreq
+# download  https://github.com/immortalwrt/immortalwrt \
+	# package/emortal/cpufreq
 
 
 echo -下载immortalwrt app
 download  https://github.com/immortalwrt/luci  \
-	applications/luci-app-cpufreq \
-	applications/luci-app-uugamebooster \
 	applications/luci-app-usb-printer \
-	applications/luci-app-socat \
 	applications/luci-app-msd_lite \
 	applications/luci-app-cpulimit \
 	applications/luci-app-dufs 
@@ -105,12 +104,11 @@ download  https://github.com/immortalwrt/luci  \
 
 download  https://github.com/immortalwrt/packages  \
 	net/dufs \
-	net/uugamebooster \
 	net/msd_lite \
 	utils/cpulimit
 
-echo -下载luci-app-openclash
-download -b dev https://github.com/vernesong/OpenClash     luci-app-openclash
+# echo -下载luci-app-openclash
+# download -b dev https://github.com/vernesong/OpenClash     luci-app-openclash
 
 echo -下载wrtbwmon luci-app-wrtbwmon
 download -b new https://github.com/brvphoenix/wrtbwmon  wrtbwmon
@@ -139,6 +137,11 @@ download  https://github.com/jjm2473/luci    applications/luci-app-upnp
 
 ln -sf ../feeds/luci/luci.mk package/luci.mk
 ln -sf ../feeds/packages/lang package/lang
+
+# 修改r8168加载顺序,在usb网卡驱动前加载 openwrt/package/kernel/r8168/Makefile
+#AUTOLOAD:=$(call AutoProbe,r8168) > AUTOLOAD:=$(call AutoLoad,99,r8168)
+sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,99/' package/kernel/r8168/Makefile
+grep 'AUTOLOAD:' package/kernel/r8168/Makefile
 
 rm -rf tmp
 
