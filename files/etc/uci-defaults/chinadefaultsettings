@@ -48,8 +48,20 @@ if [ -x /bin/bash ];then
 fi
 
 # r8168驱动比usb驱动早加载
+if [ -f /etc/modules.d/r8169 ];then
+	mv /etc/modules.d/r8169 /etc/modules.d/36-r8169
+fi
+
 if [ -f /etc/modules.d/r8168 ];then
-	mv /etc/modules.d/r8168 /etc/modules.d/99-r8168
+	mv /etc/modules.d/r8168 /etc/modules.d/36-r8168
+fi
+
+if [ -f /etc/modules.d/r8125 ];then
+	mv /etc/modules.d/r8125 /etc/modules.d/36-r8125
+fi
+
+if [ -f /etc/modules.d/r8126 ];then
+	mv /etc/modules.d/r8126 /etc/modules.d/36-r8126
 fi
 
 # 快速禁用服务的脚本
