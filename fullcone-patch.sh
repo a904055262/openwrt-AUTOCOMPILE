@@ -13,10 +13,6 @@
 # https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
 # https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/982-add-bcm-fullconenat-support.patch
 # https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/983-bcm-fullconenat-mod-nft-masq.patch
-##6.1
-# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/952-add-net-conntrack-events-support-multiple-registrant.patch
-# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/982-add-bcm-fullconenat-support.patch
-# https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/983-bcm-fullconenat-mod-nft-masq.patch
 
 
 #脚本所在路径
@@ -185,10 +181,6 @@ patches=(
 https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
 https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/982-add-bcm-fullconenat-support.patch
 https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-5.15/983-bcm-fullconenat-mod-nft-masq.patch
-##6.1
-https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/952-add-net-conntrack-events-support-multiple-registrant.patch
-https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/982-add-bcm-fullconenat-support.patch
-https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.1/983-bcm-fullconenat-mod-nft-masq.patch
 )
 
 
