@@ -87,10 +87,10 @@ jobs:
                 
             - name: fullcone补丁
               run: |
-                mv fullcone-patch-m.sh openwrt/
+                mv fullcone-patch.sh openwrt/
                 cd openwrt
-                chmod +x fullcone-patch-m.sh
-                ./fullcone-patch-m.sh
+                chmod +x fullcone-patch.sh
+                ./fullcone-patch.sh
                 
             - name: chinadefault设置
               run: |
