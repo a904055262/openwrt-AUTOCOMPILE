@@ -57,7 +57,7 @@ jobs:
                 date=$(TZ="UTC-8" date '+%Y-%m-%d_%H-%M')
                 echo "date: $date"
                 
-                echo "filename=${date}" >> $GITHUB_OUTPUT
+                echo "filename=openwrt-${date}" >> $GITHUB_OUTPUT
                 
                 git clone --depth=1 https://github.com/openwrt/openwrt.git
 
