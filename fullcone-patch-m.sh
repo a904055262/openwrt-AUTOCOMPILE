@@ -112,7 +112,7 @@ download -d fullconepatch https://github.com/immortalwrt/luci \
 
 echo 下载内核补丁
 patches=(
-https://raw.githubusercontent.com/coolsnowwolf/lede/master/target/linux/generic/hack-6.6/952-add-net-conntrack-events-support-multiple-registrant.patch
+#https://raw.githubusercontent.com/coolsnowwolf/lede/master/target/linux/generic/hack-6.6/952-add-net-conntrack-events-support-multiple-registrant.patch
 )
 
 
