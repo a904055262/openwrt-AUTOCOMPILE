@@ -100,7 +100,7 @@ jobs:
               run: |
                 cd openwrt
                 rm -rf tmp
-                mv -f ../x86.23.05.config ./.config
+                mv -f ../x86.config ./.config
                 make defconfig
             - name: 开始编译
               run: |
