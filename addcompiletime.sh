@@ -7,7 +7,7 @@ f=feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/in
 t="Compiled: $(TZ='Asia/Shanghai' date '+%x %T')"
 
 sed -i -E '/Firmware Version/{
-	s~,\s*$~ + "'"/$t"'" ,~
+	s~,\s*$~ + "'" / $t"'" ,~
 }' "$f"
 
 sed -n '/Firmware Version/p' "$f"
