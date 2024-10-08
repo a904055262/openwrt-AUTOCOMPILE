@@ -85,6 +85,13 @@ jobs:
                 chmod +x patch-luci-status.sh
                 ./patch-luci-status.sh
                 
+            - name: 添加主页编译时间
+              run: |
+                mv addcompiletime.sh openwrt/
+                cd openwrt
+                chmod +x addcompiletime.sh
+                ./addcompiletime.sh
+                
             - name: fullcone补丁
               run: |
                 mv fullcone-patch.sh openwrt/
