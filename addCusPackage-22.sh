@@ -110,17 +110,17 @@ download  https://github.com/immortalwrt/packages  \
 # echo -下载luci-app-openclash
 # download -b dev https://github.com/vernesong/OpenClash     luci-app-openclash
 
-echo -下载wrtbwmon luci-app-wrtbwmon
-download -b new https://github.com/brvphoenix/wrtbwmon  wrtbwmon
-download  https://github.com/brvphoenix/luci-app-wrtbwmon  luci-app-wrtbwmon
+# echo -下载wrtbwmon luci-app-wrtbwmon
+# download -b new https://github.com/brvphoenix/wrtbwmon  wrtbwmon
+# download  https://github.com/brvphoenix/luci-app-wrtbwmon  luci-app-wrtbwmon
 
 
 echo -下载istoreos miniupnpd luci-app-upnp
 find package -type l -name 'miniupnpd'  -delete 
 find package -type l -name 'luci-app-upnp'  -delete 
 
-download  https://github.com/jjm2473/packages    net/miniupnpd
-download  https://github.com/jjm2473/luci    applications/luci-app-upnp
+download -b istoreos-24.10 https://github.com/jjm2473/packages    net/miniupnpd
+download -b istoreos-24.10 https://github.com/jjm2473/luci        applications/luci-app-upnp
 
 
 # echo -下载passwall2
