@@ -173,7 +173,7 @@ patchlucifirewall
 echo 下载内核补丁
 patches=(
 #6.6
-https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.6/952-add-net-conntrack-events-support-multiple-registrant.patch
+#https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.6/952-add-net-conntrack-events-support-multiple-registrant.patch
 https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.6/982-add-bcm-fullconenat-support.patch
 https://raw.githubusercontent.com/wongsyrone/lede-1/master/target/linux/generic/hack-6.6/983-bcm-fullconenat-mod-nft-masq.patch
 )
