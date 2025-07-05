@@ -140,14 +140,14 @@ ln -sf ../feeds/packages/lang package/lang
 
 # 修改r8168加载顺序,在usb网卡驱动前加载 openwrt/package/kernel/r8168/Makefile
 #AUTOLOAD:=$(call AutoProbe,r8168) > AUTOLOAD:=$(call AutoLoad,36,r8168)
-sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,36/' package/kernel/r8168/Makefile
-grep 'AUTOLOAD:' package/kernel/r8168/Makefile
+# sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,36/' package/kernel/r8168/Makefile
+# grep 'AUTOLOAD:' package/kernel/r8168/Makefile
 
-sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,36/' package/kernel/r8125/Makefile
-grep 'AUTOLOAD:' package/kernel/r8125/Makefile
+# sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,36/' package/kernel/r8125/Makefile
+# grep 'AUTOLOAD:' package/kernel/r8125/Makefile
 
-sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,36/' package/kernel/r8126/Makefile
-grep 'AUTOLOAD:' package/kernel/r8126/Makefile
+# sed -E -i '/AUTOLOAD:/s/AutoProbe/AutoLoad,36/' package/kernel/r8126/Makefile
+# grep 'AUTOLOAD:' package/kernel/r8126/Makefile
 
 
 rm -rf tmp
