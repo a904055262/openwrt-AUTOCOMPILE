@@ -123,6 +123,9 @@ jobs:
                 cd /mnt/openwrt
                 make -j8 download >/dev/null
                 make -j8 download
+                
+                sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
+                
                 nproc
                 make -j$(($(nproc) + 1)) 
                 #make -j1 V=s
