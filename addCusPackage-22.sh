@@ -79,8 +79,8 @@ download(){
 
 gitclone='git clone --depth 1 --filter tree:0 '
 
-echo -下载luci-app-ipv6clientfilter
-$gitclone https://github.com/a904055262/luci-app-ipv6clientfilter $basedir/luci-app-ipv6clientfilter
+#echo -下载luci-app-ipv6clientfilter
+#$gitclone https://github.com/a904055262/luci-app-ipv6clientfilter $basedir/luci-app-ipv6clientfilter
 
 echo -下载luci-app-wechatpush
 $gitclone https://github.com/tty228/luci-app-wechatpush $basedir/luci-app-wechatpush
@@ -98,15 +98,13 @@ echo -下载immortalwrt app
 download  https://github.com/immortalwrt/luci  \
 	applications/luci-app-usb-printer \
 	applications/luci-app-msd_lite \
-	applications/luci-app-cpulimit \
 	applications/luci-app-dufs 
 
 
 download  https://github.com/immortalwrt/packages  \
 	net/dufs \
-	net/msd_lite \
-	utils/cpulimit
-
+	net/msd_lite 
+	
 # echo -下载luci-app-openclash
 # download -b dev https://github.com/vernesong/OpenClash     luci-app-openclash
 
@@ -134,6 +132,10 @@ download -b istoreos-24.10 https://github.com/jjm2473/luci        applications/l
 	# simple-obfs tuic-client v2ray-plugin gn 
 	
 
+download https://github.com/stackia/rtp2httpd \
+	openwrt-support/luci-app-rtp2httpd \
+	openwrt-support/rtp2httpd
+	
 
 ln -sf ../feeds/luci/luci.mk package/luci.mk
 ln -sf ../feeds/packages/lang package/lang
