@@ -43,10 +43,10 @@ cp -vf ../patch-luci-status.sh ../luci-status-patch.patch ./
 chmod +x patch-luci-status.sh
 ./patch-luci-status.sh
 
-echo  fullcone补丁
-cp -vf ../fullcone-patch.sh ./
-chmod +x fullcone-patch.sh
-./fullcone-patch.sh
+# echo  fullcone补丁
+# cp -vf ../fullcone-patch.sh ./
+# chmod +x fullcone-patch.sh
+# ./fullcone-patch.sh
 
 
 echo chinadefault设置

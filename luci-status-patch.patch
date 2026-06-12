@@ -1,9 +1,9 @@
 diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci
 --- feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 14:00:12.988595207 +0000
 +++ luci-index-patch/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci	2024-05-06 14:00:22.460851679 +0000
-@@ -581,7 +581,111 @@
+@@ -680,7 +680,111 @@
  
- 			return { result: ports };
+ 			return { result: dev_stats };
  		}
 -	}
 +	},
@@ -114,10 +114,12 @@ diff -ur feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci luci-index-
  };
  
  return { luci: methods };
+
+
 diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 --- feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 14:00:12.992595314 +0000
 +++ luci-index-patch/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2024-05-06 14:00:22.456851568 +0000
-@@ -18,6 +18,36 @@
+@@ -25,6 +25,36 @@
  	method: 'info'
  });
  
@@ -154,36 +156,35 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  return baseclass.extend({
  	title: _('System'),
  
-@@ -25,14 +55,26 @@
- 		return Promise.all([
- 			L.resolveDefault(callSystemBoard(), {}),
+@@ -34,6 +64,12 @@
  			L.resolveDefault(callSystemInfo(), {}),
--			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' })
-+			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' }),
+ 			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' }),
+ 			L.resolveDefault(callGetUnixtime(), 0),
 +			L.resolveDefault(callCPUUsage(), {}),
 +			L.resolveDefault(callTempInfo(), {}),
 +			L.resolveDefault(callCpuFreq(), {}),
-+			L.resolveDefault(callOnlineUsers(), {}),
++			L.resolveDefault(callOnlineUsers(), {}
 +			L.resolveDefault(callCPUBench(), {}),
 +			L.resolveDefault(callFanSpeed(), {}),
+ 			uci.load('system')
  		]);
  	},
- 
- 	render: function(data) {
+@@ -42,7 +78,13 @@
  		var boardinfo   = data[0],
  		    systeminfo  = data[1],
--		    luciversion = data[2];
-+		    luciversion = data[2],
-+			cpuusage    = data[3],
-+			tempinfo    = data[4],
-+			cpufreq     = data[5],
-+			onlineusers = data[6],
-+			cpubench    = data[7],
-+			fanspeed    = data[8];
+ 		    luciversion = data[2],
+-		    unixtime    = data[3];
++		    unixtime    = data[3],
++			cpuusage    = data[4],
++			tempinfo    = data[5],
++			cpufreq     = data[6],
++			onlineusers = data[7],
++			cpubench    = data[8],
++			fanspeed    = data[9];
  
  		luciversion = luciversion.branch + ' ' + luciversion.revision;
  
-@@ -53,18 +95,23 @@
+@@ -64,18 +106,23 @@
  
  		var fields = [
  			_('Hostname'),         boardinfo.hostname,
@@ -210,15 +211,16 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
  		];
  
  		var table = E('table', { 'class': 'table' });
+
 diff -ur feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
 --- feeds/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 14:00:12.996595422 +0000
 +++ luci-index-patch/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2024-05-06 14:00:22.452851462 +0000
-@@ -3,7 +3,7 @@
- 		"description": "Grant access to realtime statistics",
- 		"read": {
+@@ -6,7 +6,7 @@
+ 				"/etc/services": [ "read" ]
+ 			},
  			"ubus": {
 -				"luci": [ "getConntrackList", "getRealtimeStats" ],
 +				"luci": [ "getConntrackList", "getRealtimeStats" , "getCPUUsage", "getTempInfo", "getFanSpeed", "getCpuFreq", "getOnlineUsers", "getCPUBench" ],
+ 				"luci-rpc": [ "getHostHints", "getNetworkDevices", "getDHCPLeases" ],
  				"network.rrdns": [ "lookup" ]
  			}
- 		}
