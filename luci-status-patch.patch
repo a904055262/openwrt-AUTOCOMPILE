@@ -163,7 +163,7 @@ diff -ur feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/st
 +			L.resolveDefault(callCPUUsage(), {}),
 +			L.resolveDefault(callTempInfo(), {}),
 +			L.resolveDefault(callCpuFreq(), {}),
-+			L.resolveDefault(callOnlineUsers(), {}
++			L.resolveDefault(callOnlineUsers(), {}),
 +			L.resolveDefault(callCPUBench(), {}),
 +			L.resolveDefault(callFanSpeed(), {}),
  			uci.load('system')
