@@ -1,4 +1,4 @@
-name: 编译openwrt24.10
+name: 编译openwrt25
 on:
     schedule:
       - cron: 0 0 */7 * * 
@@ -55,8 +55,8 @@ jobs:
               run: |
                 chmod +x getLatestTag.sh
                 
-                #version=$(./getLatestTag.sh | tail -n1)
-                version="openwrt-24.10"
+                version=$(./getLatestTag.sh | tail -n1)
+                #version="openwrt-24.10"
                 echo "version: $version"
                 
                 date=$(TZ="UTC-8" date '+%Y-%m-%d_%H-%M')
@@ -113,7 +113,7 @@ jobs:
                 cd openwrt
                 rm -rf tmp
                 
-                mv -f ../x86.24.10.config ./.config
+                mv -f ../.config ./.config
                 make defconfig
             - name: 开始编译
               run: |
