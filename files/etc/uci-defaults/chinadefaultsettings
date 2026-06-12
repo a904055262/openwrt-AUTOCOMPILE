@@ -11,9 +11,6 @@ uci -q batch << 'EOF'
 	add_list system.ntp.server='ntp.aliyun.com'
 	commit system
 	
-	# 去掉v6fullcone ，关掉fullcone总开关
-	# delete firewall.@defaults[0].fullcone
-	# delete firewall.@zone[1].fullcone6
 	
 	# 去掉加速
 	set firewall.@defaults[0].flow_offloading='0'
@@ -25,13 +22,13 @@ uci -q batch << 'EOF'
 	commit network
 	
 	# 网络诊断的3个默认ip
-	set luci.diag.dns='taobao.com'
-	set luci.diag.ping='taobao.com'
-	set luci.diag.route='taobao.com'
+	set luci.diag.dns='www.baidu.com'
+	set luci.diag.ping='www.baidu.com'
+	set luci.diag.route='www.baidu.com'
 	commit luci
 	
-	# dhcpv6的默认租期改为30分钟
-	set dhcp.lan.preferred_lifetime='30m'
+	# dhcpv6的默认租期
+	set dhcp.lan.preferred_lifetime='60m'
 	commit dhcp
 EOF
 
