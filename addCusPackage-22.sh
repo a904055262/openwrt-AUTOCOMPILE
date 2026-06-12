@@ -118,7 +118,7 @@ download https://github.com/stackia/rtp2httpd \
 	openwrt-support/rtp2httpd
 
 mv package/cus/luci-app-rtp2httpd/Makefile.versioned package/cus/luci-app-rtp2httpd/Makefile
-mv package/cus/rtp2http/Makefile.versioned package/cus/rtp2http/Makefile
+mv  package/cus/rtp2http/Makefile.versioned package/cus/rtp2http/Makefile
 
 ln -sf ../feeds/luci/luci.mk package/luci.mk
 ln -sf ../feeds/packages/lang package/lang
