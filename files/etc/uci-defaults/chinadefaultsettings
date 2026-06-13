@@ -57,6 +57,10 @@ for m in r8125 r8126 r8127 r8168 r8169;do
 	fi
 done
 
+# 如果存在 8168 8169，默认用8168
+if [ -f /etc/modules.d/r8168 ] && [ -f /etc/modules.d/r8169 ];then
+	echo "blacklist r8169" >> /etc/modules.conf
+fi
 
 # 北大源
 sed -i.ori 's,://downloads.openwrt.org/,://mirrors.pku.edu.cn/openwrt/,' /etc/apk/repositories.d/distfeeds.list
