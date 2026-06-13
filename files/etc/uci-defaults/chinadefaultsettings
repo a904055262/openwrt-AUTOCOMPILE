@@ -4,6 +4,9 @@ uci -q batch << 'EOF'
 	# 时区改成中国
 	set system.@system[0].timezone='CST-8'
 	set system.@system[0].zonename='Asia/Shanghai'
+	set system.@system[0].clock_timestyle='1'
+	set system.@system[0].clock_hourcycle='h23'
+	
 	delete system.ntp.server
 	add_list system.ntp.server='cn.pool.ntp.org'
 	add_list system.ntp.server='ntp.ntsc.ac.cn'
@@ -47,28 +50,16 @@ if [ -x /bin/bash ];then
 	sed -E -i '/^root/{s#:/bin/.*#:/bin/bash#}' /etc/passwd
 fi
 
-# r8168驱动比usb驱动早加载
-if [ -f /etc/modules.d/r8169 ];then
-	mv /etc/modules.d/r8169 /etc/modules.d/36-r8169
-fi
+# r81驱动比usb驱动早加载
+for m in r8125 r8126 r8127 r8168 r8169;do
+	if [ -L "/etc/modules-boot.d/$m" ];then
+		mv "/etc/modules-boot.d/$m" "/etc/modules-boot.d/36-$m"
+	fi
+done
 
-if [ -f /etc/modules.d/r8168 ];then
-	mv /etc/modules.d/r8168 /etc/modules.d/36-r8168
-fi
-
-if [ -f /etc/modules.d/r8125 ];then
-	mv /etc/modules.d/r8125 /etc/modules.d/36-r8125
-fi
-
-if [ -f /etc/modules.d/r8126 ];then
-	mv /etc/modules.d/r8126 /etc/modules.d/36-r8126
-fi
-
-# 快速禁用服务的脚本
-chmod +x /etc/disservices.sh
 
 # 北大源
-sed -i.ori 's,://downloads.openwrt.org/,://mirrors.pku.edu.cn/openwrt/,' /etc/opkg/distfeeds.conf
+sed -i.ori 's,://downloads.openwrt.org/,://mirrors.pku.edu.cn/openwrt/,' /etc/apk/repositories.d/distfeeds.list
 
 # 默认密码改成password
 echo -e 'password\npassword' | passwd root 
