@@ -95,9 +95,11 @@ download  https://github.com/timsaya/openwrt-bandix  \
 
 echo -下载immortalwrt app
 download  https://github.com/immortalwrt/luci  \
+	applications/luci-app-msd_lite \
 	applications/luci-app-dufs 
 
 download  https://github.com/immortalwrt/packages  \
+	net/msd_lite \
 	net/dufs 
 
 
