@@ -60,6 +60,8 @@ done
 # 如果存在 8168 8169，默认用8168
 if [ -f /etc/modules.d/r8168 ] && [ -f /etc/modules.d/r8169 ];then
 	echo "blacklist r8169" >> /etc/modules.conf
+	rmmod r8169
+	modprobe r8168
 fi
 
 # 北大源
@@ -74,10 +76,10 @@ if [ -f /etc/ssh/sshd_config ];then
 fi
 
 # 添加自动还原配置脚本
-chmod +x /etc/autorestoreop.sh
-sed -E -i '/^exit /i\
-/etc/autorestoreop.sh & 
-' /etc/rc.local 
+# chmod +x /etc/autorestoreop.sh
+# sed -E -i '/^exit /i\
+# /etc/autorestoreop.sh & 
+# ' /etc/rc.local 
 
 exit 0
 
