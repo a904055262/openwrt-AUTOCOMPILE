@@ -18,21 +18,6 @@ jobs:
                 sudo apt update
                 sudo apt -y upgrade
                 
-                # dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-                
-                # docker rmi `docker images -q`
-                # sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
-                
-                # sudo -E apt update >/dev/null
-                # sudo -E apt -y purge microsoft-edge* *azure*  kubectl   podman containernetworking-plugins r-base-core mono-devel*  containerd*  temurin* gfortran*  docker* ghc* zulu* *llvm*  firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap* >/dev/null
-                # sudo -E systemctl daemon-reload 
-                # sudo -E apt -y autoremove --purge >/dev/null
-                # sudo -E apt clean >/dev/null
-                # sudo -E timedatectl set-timezone "Asia/Shanghai"
-                
-                # df -hT
-                # dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-                
             - name: 安装编译依赖
               run: |
                 
@@ -43,9 +28,7 @@ jobs:
                 
                 sudo apt -y autoremove --purge 
                 sudo apt clean 
-                
-                # dpkg-query -W -f='${Installed-Size;8}  ${Package}\n' | sort -n
-                
+
                 df -hT
             - name: 下载仓库文件到工作目录
               uses: actions/checkout@v4
@@ -56,7 +39,9 @@ jobs:
                 chmod +x getLatestTag.sh
                 
                 version=$(./getLatestTag.sh | tail -n1)
+                
                 #version="openwrt-24.10"
+                
                 echo "version: $version"
                 
                 date=$(TZ="UTC-8" date '+%Y-%m-%d_%H-%M')
@@ -69,10 +54,7 @@ jobs:
             - name: 更新feeds
               run: |
                 cd openwrt
-                #cp ../feeds.conf.default feeds.conf.default
-                #cat feeds.conf.default
-                ./scripts/feeds update -a > /dev/null 2>&1
-                ./scripts/feeds install -a > /dev/null 2>&1
+                ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 df -hT
             - name: 添加自定义软件包
@@ -97,12 +79,6 @@ jobs:
                 chmod +x addcompiletime.sh
                 ./addcompiletime.sh
                 
-            # - name: fullcone补丁
-              # run: |
-                # mv fullcone-patch.sh openwrt/
-                # cd openwrt
-                # chmod +x fullcone-patch.sh
-                # ./fullcone-patch.sh
                 
             - name: chinadefault设置
               run: |
@@ -121,21 +97,15 @@ jobs:
                 sudo chmod 777 /mnt
                 mv openwrt /mnt
                 cd /mnt/openwrt
-                make -j8 download >/dev/null
+                
                 make -j8 download
                 
                 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
-                
-                nproc
+               
                 make -j$(($(nproc) + 1)) 
-                #make -j1 V=s
+                
                 df -hT
-            - name: 上传固件
-              uses: actions/upload-artifact@v4
-              with:
-                name: ${{steps.filename.outputs.filename}}-squashfs
-                path: |
-                    /mnt/openwrt/bin/targets/*/*/*squashfs-combined-efi.img*
+
                     
             - name: 上传固件
               uses: actions/upload-artifact@v4
