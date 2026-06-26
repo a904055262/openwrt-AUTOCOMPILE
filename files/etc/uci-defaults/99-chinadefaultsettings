@@ -31,8 +31,8 @@ uci -q batch << 'EOF'
 	commit luci
 	
 	# dhcpv6的默认租期
-	set dhcp.lan.preferred_lifetime='60m'
-	commit dhcp
+	# set dhcp.lan.preferred_lifetime='60m'
+	# commit dhcp
 EOF
 
 # coremark
