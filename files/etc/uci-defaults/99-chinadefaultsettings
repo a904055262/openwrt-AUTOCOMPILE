@@ -30,9 +30,7 @@ uci -q batch << 'EOF'
 	set luci.diag.route='www.baidu.com'
 	commit luci
 	
-	# dhcpv6的默认租期
-	# set dhcp.lan.preferred_lifetime='60m'
-	# commit dhcp
+
 EOF
 
 # coremark
@@ -50,18 +48,25 @@ if [ -x /bin/bash ];then
 	sed -E -i '/^root/{s#:/bin/.*#:/bin/bash#}' /etc/passwd
 fi
 
-# r81驱动比usb驱动早加载
-for m in r8125 r8126 r8127 r8168 r8169;do
+# r81驱动加载顺序
+for m in r8125 r8125-rss r8126 r8126-rss r8127 r8127-rss r8168 r8168-rss r8169;do
 	if [ -L "/etc/modules-boot.d/$m" ];then
 		mv "/etc/modules-boot.d/$m" "/etc/modules-boot.d/36-$m"
 	fi
 done
 
-# 如果存在 8168 8169，默认用8168
-if [ -f /etc/modules.d/r8168 ] && [ -f /etc/modules.d/r8169 ];then
-	echo "blacklist r8169" >> /etc/modules.conf
-	rmmod r8169
-	modprobe r8168
+# 默认禁用r81驱动
+if [ -f /etc/modules.d/r8169 ];then
+	cat >> /etc/modules.conf <<'EOF'
+blacklist r8168
+blacklist r8125
+blacklist r8125-rss
+blacklist r8126
+blacklist r8126-rss
+blacklist r8127
+blacklist r8127-rss
+EOF
+
 fi
 
 # 北大源
