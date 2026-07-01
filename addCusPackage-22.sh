@@ -103,14 +103,14 @@ download  https://github.com/immortalwrt/packages  \
 	net/dufs 
 
 
-echo -下载istoreos miniupnpd luci-app-upnp
+echo -下载 miniupnpd luci-app-upnp 允许私有地址转发
 find package -type l -name 'miniupnpd'  -delete 
 find package -type l -name 'luci-app-upnp'  -delete 
 
-download -b istoreos-24.10 https://github.com/jjm2473/packages \
+download https://github.com/openwrt/packages \
 	net/miniupnpd
 
-download -b istoreos-24.10 https://github.com/jjm2473/luci  \
+download https://github.com/openwrt/luci  \
 	applications/luci-app-upnp
 
 
