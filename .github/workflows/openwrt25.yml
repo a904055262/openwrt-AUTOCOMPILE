@@ -57,6 +57,10 @@ jobs:
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 df -hT
+            - name: fullcone
+              run: |
+                cd openwrt
+                curl -sSL https://raw.githubusercontent.com/mufeng05/openwrt-sonic-fullcone/master/add_sonic_fullcone.sh | bash
             - name: 添加自定义软件包
               run: |
                 mv addCusPackage-22.sh openwrt/
