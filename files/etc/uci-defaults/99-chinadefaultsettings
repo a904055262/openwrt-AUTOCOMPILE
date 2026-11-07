@@ -37,11 +37,6 @@ EOF
 chmod +x /etc/coremark.sh
 echo '0 4 * * * /etc/coremark.sh firstbenchmark' >> /etc/crontabs/root
 
-# 禁用dnsmasq log
-if [ -f /etc/dnsmasq.conf ];then
-	sed -i -E '/^log-facility=/d' /etc/dnsmasq.conf
-	echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf
-fi
 
 # root shell默认改bash
 if [ -x /bin/bash ];then

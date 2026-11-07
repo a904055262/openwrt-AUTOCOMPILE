@@ -83,6 +83,9 @@ gitclone='git clone --depth 1 --filter tree:0 '
 echo -下载luci-app-wechatpush
 $gitclone https://github.com/tty228/luci-app-wechatpush $basedir/luci-app-wechatpush
 
+$gitclone https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman.git $basedir/luci-app-podman
+
+
 
 
 echo -下载bandix
@@ -105,10 +108,14 @@ download  https://github.com/immortalwrt/packages  \
 
 echo -下载 miniupnpd luci-app-upnp 允许私有地址转发
 find package -type l -name 'miniupnpd'  -delete 
-find package -type l -name 'luci-app-upnp'  -delete 
+find package -type l -name 'luci-app-pnp'  -delete 
+find package -type l -name 'podman'  -delete 
 
 download https://github.com/openwrt/packages \
-	net/miniupnpd
+	net/miniupnpd  \
+	net/passt  \
+	utils/podman
+
 
 download https://github.com/openwrt/luci  \
 	applications/luci-app-upnp
@@ -118,6 +125,7 @@ echo -下载rtp2httpd
 download https://github.com/stackia/rtp2httpd \
 	openwrt-support/luci-app-rtp2httpd \
 	openwrt-support/rtp2httpd
+
 
 mv package/cus/luci-app-rtp2httpd/Makefile.versioned package/cus/luci-app-rtp2httpd/Makefile
 mv package/cus/rtp2httpd/Makefile.versioned package/cus/rtp2httpd/Makefile
