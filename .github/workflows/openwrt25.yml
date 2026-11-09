@@ -3,7 +3,10 @@ on:
     schedule:
       - cron: 0 0 */7 * * 
     workflow_dispatch:
-
+    
+permissions:
+    contents: write
+    
 jobs:
     built:
         runs-on: ubuntu-24.04
@@ -48,6 +51,8 @@ jobs:
                 echo "date: $date"
                 
                 echo "filename=${version}_${date}" >> $GITHUB_OUTPUT
+                echo "tag=${version}_${date}_build${{ github.run_number }}" >> $GITHUB_OUTPUT
+                echo "version=${version}" >> $GITHUB_OUTPUT
                 
                 git clone -b "$version" --depth=1 https://github.com/openwrt/openwrt.git
 
@@ -118,3 +123,19 @@ jobs:
                 path: |
                     /mnt/openwrt/bin/targets/*/*/*ext4-combined-efi.img*
                     
+            # 编译产物直接发到 Release（不再只传 artifact）
+            - name: 发布到 GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                tag_name: ${{ steps.filename.outputs.tag }}
+                name: OpenWrt ${{ steps.filename.outputs.filename }}
+                body: |
+                  自动编译固件（GitHub Actions）
+                  - 源码版本：${{ steps.filename.outputs.version }}
+                files: |
+                  /mnt/openwrt/bin/targets/*/*/*ext4-combined-efi.img*
+                generate_release_notes: false
+                make_latest: false
+                fail_on_missing_files: false
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
