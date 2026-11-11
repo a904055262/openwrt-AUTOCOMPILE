@@ -109,11 +109,15 @@ download  https://github.com/immortalwrt/packages  \
 echo -下载 miniupnpd luci-app-upnp 允许私有地址转发
 find package -type l -name 'miniupnpd'  -delete 
 find package -type l -name 'luci-app-pnp'  -delete 
+
+echo -换6.0的podman
 find package -type l -name 'podman'  -delete 
+find package -type l -name 'netavark'  -delete 
 
 download https://github.com/openwrt/packages \
 	net/miniupnpd  \
 	net/passt  \
+	net/netavark \
 	utils/podman
 
 
