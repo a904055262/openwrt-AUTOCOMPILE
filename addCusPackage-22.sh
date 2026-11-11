@@ -113,11 +113,13 @@ find package -type l -name 'luci-app-pnp'  -delete
 echo -换6.0的podman
 find package -type l -name 'podman'  -delete 
 find package -type l -name 'netavark'  -delete 
+find package -type l -name 'aardvark-dns'  -delete
 
 download https://github.com/openwrt/packages \
 	net/miniupnpd  \
 	net/passt  \
 	net/netavark \
+	net/aardvark-dns \
 	utils/podman
 
 
